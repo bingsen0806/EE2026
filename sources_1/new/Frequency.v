@@ -27,21 +27,21 @@ module Frequency(input clk_20kHz, input [11:0] mic_in, output [3:0] freq_level, 
     reg [11:0] SOUNDCOUNTER = 0;
     reg reset = 0;
     
-    assign freq_level = (freq < 100) ? 0 : 
-                        (freq < 200) ? 1 :
-                        (freq < 300) ? 2 :
-                        (freq < 400) ? 3 :
-                        (freq < 500) ? 4 :
-                        (freq < 600) ? 5 :
-                        (freq < 700) ? 6 :
-                        (freq < 800) ? 7 :
-                        (freq < 900) ? 8 :
-                        (freq < 1000) ? 9 :
-                        (freq < 1100) ? 10 :
-                        (freq < 1200) ? 11 :
-                        (freq < 1300) ? 12 :
-                        (freq < 1400) ? 13 :
-                        (freq < 1500) ? 14 : 15;
+    assign freq_level = (freq < 200) ? 0 : 
+                        (freq < 300) ? 1 :
+                        (freq < 400) ? 2 :
+                        (freq < 500) ? 3 :
+                        (freq < 600) ? 4 :
+                        (freq < 700) ? 5 :
+                        (freq < 800) ? 6 :
+                        (freq < 900) ? 7 :
+                        (freq < 1000) ? 8 :
+                        (freq < 1100) ? 9 :
+                        (freq < 1200) ? 10 :
+                        (freq < 1300) ? 11 :
+                        (freq < 1400) ? 12 :
+                        (freq < 1500) ? 13 :
+                        (freq < 1600) ? 14 : 15;
                         
     always @ (posedge clk_20kHz) 
     begin
