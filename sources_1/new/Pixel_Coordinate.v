@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 10.03.2021 19:11:17
+// Create Date: 22.03.2021 10:53:13
 // Design Name: 
-// Module Name: clk10Hz
+// Module Name: Pixel_Coordinate
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,16 +20,11 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module clk10Hz(
-    input basys_clk,
-    output clk_signal
+module Pixel_Coordinate(
+    input [12:0] pixel_index,
+    output [6:0] X,
+    output [5:0] Y
     );
-    
-    reg [31:0] count = 32'd0;
-    reg clk_signal = 0;
-    always @(posedge basys_clk) begin
-        count <= (count == 4999999) ? 0 : count + 1;
-        clk_signal <= (count == 0) ? ~clk_signal : clk_signal;
-   
-    end 
+    assign X = (pixel_index ) % 96;
+    assign Y = (pixel_index ) / 96;
 endmodule

@@ -22,15 +22,16 @@
 
 module LED_Display_Mic(
     input led_clk,
-    input sw,
+    input [1:0] sw,
     input [3:0] raw_volume,
     input [3:0] peak_volume,
+    input [3:0] freq_level,
     output reg [15:0] led = 16'b00000_00000_00000_0
     );
     
     reg [3:0] volume_used; 
     always @(posedge led_clk) begin
-        volume_used <= sw ? raw_volume : peak_volume;
+        volume_used <= sw[1] ? freq_level : sw[0] ? raw_volume : peak_volume;
         case (volume_used)
         4'b0000:
             led <= {{15{1'b0}},1'b1};

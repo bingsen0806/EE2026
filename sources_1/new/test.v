@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 10.03.2021 19:11:17
+// Create Date: 21.03.2021 23:59:48
 // Design Name: 
-// Module Name: clk10Hz
+// Module Name: test
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,16 +20,23 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module clk10Hz(
+module test(
     input basys_clk,
-    output clk_signal
+    output reg [15:0] led = 16'b0
     );
     
-    reg [31:0] count = 32'd0;
-    reg clk_signal = 0;
+    reg t = 0;
+    reg w = 1;
+    reg [5:0] s = 25;
     always @(posedge basys_clk) begin
-        count <= (count == 4999999) ? 0 : count + 1;
-        clk_signal <= (count == 0) ? ~clk_signal : clk_signal;
-   
-    end 
+        if (t==0) begin
+            led <= 16'b00000_11111_00000_0;
+        end
+        if (w == 1) begin
+            led <= 16'b11111_00000_00000_0;
+        end
+        if (s > 20) begin
+            led <= 16'b00111_11100_00000_0;
+        end
+    end
 endmodule
