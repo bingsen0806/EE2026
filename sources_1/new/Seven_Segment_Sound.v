@@ -25,9 +25,11 @@ module Seven_Segment_Sound(
     input update_volume_clk,
     output reg [3:0] an = 4'b0000,
     output reg [7:0] seg = 8'b00000_000,
-    input [3:0] volume_raw,
-    input [3:0] volume_peak,
-    input sw
+    input [11:0] volume_raw,
+    input [3:0] volume_level_peak,
+    input [3:0] volume_level_raw,
+    input [1:0] sw,
+    input [11:0] freq
     );
     reg [1:0] count = 2'b00;
     reg [7:0] segment [3:0]; //this variable array will be changed according to volume level
@@ -48,55 +50,33 @@ module Seven_Segment_Sound(
         segment_const[12] = 8'b10001001; //Letter H
         segment_const[13] = 8'b10110110; //Just 3 horizontal lines
     end
-    
-    reg [3:0] volume_used;
 
     always @(posedge update_volume_clk) begin
-        volume_used <= sw ? volume_raw : volume_peak;
-        //Below sets the letter L, M or H
-        if(volume_used > 10) begin
-            segment[1] <= segment_const[12]; //set to H
-        end else if (volume_used > 5) begin
-            segment[1] <= segment_const[11]; //set to M
-        end else begin
-           segment[1] <= segment_const[10]; //set to L
-        end
-        //Below sets the 2-digit volume level display
-        if (volume_used < 4'b1001) begin //If it's less than 9
-            segment[2] <= segment_const[0];
-            segment[3] <= segment_const[volume_used];
-        end else begin                  //If more than or equal to 10  
-            case (volume_used)
-            4'b1001: begin
-                segment[2] <= segment_const[0];
-                segment[3] <= segment_const[9];            
+        if (sw[1] == 1) begin
+            segment[0] <= segment_const[freq/1000];
+            segment[1] <= segment_const[(freq%1000)/100];
+            segment[2] <= segment_const[(freq%100)/10];
+            segment[3] <= segment_const[freq%10];           
+        end else if (sw[0] == 0) begin
+            segment[0] <= segment_const[13];
+            //Below sets the letter L, M or H
+            if(volume_level_peak > 10) begin
+                segment[1] <= segment_const[12]; //set to H
+            end else if (volume_level_peak > 5) begin
+                segment[1] <= segment_const[11]; //set to M
+            end else begin
+                segment[1] <= segment_const[10]; //set to L
             end
-            4'b1010: begin 
-                segment[2] <= segment_const[1];
-                segment[3] <= segment_const[0]; 
-                end  
-            4'b1011: begin 
-                segment[2] <= segment_const[1];
-                segment[3] <= segment_const[1]; 
-                end
-            4'b1100: begin
-                segment[2] <= segment_const[1];
-                segment[3] <= segment_const[2];
-                end 
-            4'b1101: begin
-                segment[2] <= segment_const[1];
-                segment[3] <= segment_const[3];
-                end
-            4'b1110: begin
-                segment[2] <= segment_const[1];
-                segment[3] <= segment_const[4];
-                end
-            4'b1111: begin
-                segment[2] <= segment_const[1];
-                segment[3] <= segment_const[5];
-                end
-            endcase   
-        end                              
+            //Below sets the 2-digit volume level display
+            segment[2] <= segment_const[volume_level_peak/10];
+            segment[3] <= segment_const[volume_level_peak%10];
+        end else begin 
+            segment[0] <= segment_const[volume_raw/1000];
+            segment[1] <= segment_const[(volume_raw%1000)/100];
+            segment[2] <= segment_const[(volume_raw%100)/10];
+            segment[3] <= segment_const[volume_raw%10];
+        end 
+
     end
     
     always @(posedge display_clk) begin
@@ -104,7 +84,7 @@ module Seven_Segment_Sound(
         case (count)
         2'b00: begin
             an <= 4'b0111; 
-            seg <= segment_const[13];
+            seg <= segment[0];
             end
         2'b01: begin
             an <= 4'b1011; 
