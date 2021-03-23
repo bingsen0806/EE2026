@@ -26,7 +26,7 @@ module Top_Student (
     input btnL,
     input btnR,
     output [7:0] JC,
-    input [1:0] sw,
+    input [15:0] sw,
     output [15:0] led, //remember change constraint
     output [3:0] an,
     output [7:0] seg
@@ -106,6 +106,9 @@ module Top_Student (
         .player1_down (leftButton),
         .player2_up (rightButton),
         .player2_down (downButton),
-        .oled_data (oled_data)
+        .oled_data (oled_data),
+        .clk_20Hz(clk_20),
+        .player1_shoot(sw[15]),
+        .player2_shoot(sw[14])
         );   
 endmodule
