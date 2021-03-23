@@ -60,7 +60,8 @@ module Pokemon(
         .leftX_wb5(leftX_wb5),
         .leftX_wb6(leftX_wb6),
         .leftX_wb7(leftX_wb7),
-        .leftX_wb8(leftX_wb8)
+        .leftX_wb8(leftX_wb8),
+        .leftX_wb9(leftX_wb9)
         );
     
     Pokemon_Logic logic(    
