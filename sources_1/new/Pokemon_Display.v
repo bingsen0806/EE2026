@@ -27,7 +27,9 @@ module Pokemon_Display(
     input [8:0] fireball_EN,
     input [6:0] leftX_wb1, leftX_wb2, leftX_wb3, leftX_wb4, leftX_wb5, leftX_wb6, leftX_wb7, leftX_wb8, leftX_wb9,
     input [8:0] waterball_EN,
-    output [15:0] oled_data
+    output [15:0] oled_data,
+    input Charmander_Alive,
+    input Squirtle_Alive
     );
     parameter [15:0] BACKGROUND = 16'b11111_111111_11111;
     wire [15:0] oled_charmander, oled_squirtle;
@@ -59,8 +61,8 @@ module Pokemon_Display(
     WaterBall lane3_2_wb (.X(X),.Y(Y),.leftX(leftX_wb8),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane3_2));
     WaterBall lane3_3_wb (.X(X),.Y(Y),.leftX(leftX_wb9),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane3_3));
     
-    assign oled_data = (X >= leftXCharmander && X <= leftXCharmander + 20 && Y >= topYCharmander && Y <= topYCharmander + 17) ? oled_charmander:
-                       (X >= leftXSquirtle && X <= leftXSquirtle + 20 && Y >= topYSquirtle && Y <= topYSquirtle + 17) ? oled_squirtle:
+    assign oled_data = (Charmander_Alive && X >= leftXCharmander && X <= leftXCharmander + 20 && Y >= topYCharmander && Y <= topYCharmander + 17) ? oled_charmander:
+                       (Squirtle_Alive && X >= leftXSquirtle && X <= leftXSquirtle + 20 && Y >= topYSquirtle && Y <= topYSquirtle + 17) ? oled_squirtle:
                        (fireball_EN[0] == 1 && X >= leftX_fb1 && X <= leftX_fb1 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_fb_lane1_1:
                        (fireball_EN[1] == 1 && X >= leftX_fb2 && X <= leftX_fb2 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_fb_lane1_2:
                        (fireball_EN[2] == 1 && X >= leftX_fb3 && X <= leftX_fb3 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_fb_lane1_3:

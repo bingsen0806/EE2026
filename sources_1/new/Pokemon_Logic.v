@@ -34,7 +34,9 @@ module Pokemon_Logic(
     output [8:0] FireBall_EN,
     output [8:0] WaterBall_EN,
     output [6:0] leftX_fb1, leftX_fb2, leftX_fb3, leftX_fb4, leftX_fb5, leftX_fb6, leftX_fb7, leftX_fb8, leftX_fb9,
-    output [6:0] leftX_wb1, leftX_wb2, leftX_wb3, leftX_wb4, leftX_wb5, leftX_wb6, leftX_wb7, leftX_wb8, leftX_wb9
+    output [6:0] leftX_wb1, leftX_wb2, leftX_wb3, leftX_wb4, leftX_wb5, leftX_wb6, leftX_wb7, leftX_wb8, leftX_wb9,
+    output reg Charmander_Alive = 1,
+    output reg Squirtle_Alive = 1
     );
     
     parameter [6:0] INITIAL_LEFT_FB = 7'd17;
@@ -57,6 +59,7 @@ module Pokemon_Logic(
     reg [5:0] botY_Fireball [8:0];
     reg [5:0] botY_Waterball [8:0];
     reg can_shoot_1 = 1; reg can_shoot_2 = 1; reg [5:0] coolDown_1 = 6'd0; reg[5:0] coolDown_2 = 6'd0;
+    reg [3:0] HP_Squirtle = 4'd5; reg [3:0] HP_Charmander = 4'd5;
     initial begin
         for (i = 0; i <= 8; i = i + 1) begin
             leftX_Waterball[i] = INITIAL_LEFT_WB;
@@ -82,6 +85,8 @@ module Pokemon_Logic(
 
     
     always @(posedge single_pulse_clk) begin
+        if (HP_Charmander == 0) Charmander_Alive <= 0;
+        if (HP_Squirtle == 0) Squirtle_Alive <= 0;
         if (player2_up == 1 && topYSquirtle >=18) begin
             topYSquirtle <= topYSquirtle - 18;
         end else if (player2_down == 1 && topYSquirtle < 36) begin
@@ -137,7 +142,7 @@ module Pokemon_Logic(
         
         //Player 1 Shoots if can_shoot_1 and the switch is on
         if (can_shoot_1 == 1) begin
-            if (player1Shoot == 1) begin
+            if (player1Shoot == 1 && Charmander_Alive == 1) begin
                 if (topYCharmander < 18) begin
                     for (i = 0; (i <= 2 && k == 1); i = i + 1) begin
                         if (FireBall_EN[i] == 0) begin
@@ -175,7 +180,7 @@ module Pokemon_Logic(
                 
         //Player 2 shoots if can_shoot_2 and switch is on
         if (can_shoot_2 == 1) begin
-            if (player2Shoot == 1) begin
+            if (player2Shoot == 1 && Squirtle_Alive == 1) begin
                 if (topYSquirtle < 18) begin
                     for (i = 0; (i <= 2 && k == 1); i = i + 1) begin
                         if (WaterBall_EN[i] == 0) begin
@@ -211,6 +216,22 @@ module Pokemon_Logic(
             end
         end                
         
+        //Fire hits Squirtle or Water hits Charmander. Note that the logic only works for the 3 lanes
+        for (i = 0; i <= 8; i = i + 1) begin
+            if (leftX_Fireball[i] + 7 >= 72 && topY_Fireball[i] >= topYSquirtle && topY_Fireball[i] <= topYSquirtle + 17) begin
+                leftX_Fireball[i] <= INITIAL_LEFT_FB;
+                FireBall_EN[i] <= 0;
+                HP_Squirtle <= HP_Squirtle - 1;
+            end
+        end
+        
+        for (i = 0; i <= 8; i = i + 1) begin
+            if (leftX_Waterball[i] <= 23 && topY_Waterball[i] >= topYCharmander && topY_Waterball[i] <= topYCharmander + 17) begin
+                leftX_Waterball[i] <= INITIAL_LEFT_WB;
+                WaterBall_EN[i] <= 0;
+                HP_Charmander <= HP_Charmander - 1;
+            end
+        end
     end
     
     assign leftX_fb1 = leftX_Fireball[0];

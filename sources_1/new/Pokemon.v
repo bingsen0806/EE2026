@@ -39,7 +39,7 @@ module Pokemon(
     wire [8:0] WaterBall_EN;
     wire [6:0] leftX_fb1, leftX_fb2, leftX_fb3, leftX_fb4, leftX_fb5, leftX_fb6, leftX_fb7, leftX_fb8, leftX_fb9;
     wire [6:0] leftX_wb1, leftX_wb2, leftX_wb3, leftX_wb4, leftX_wb5, leftX_wb6, leftX_wb7, leftX_wb8, leftX_wb9;
-    
+    wire Charmander_Alive, Squirtle_Alive;
     Pokemon_Display pokemon_display(
         .X(X), .leftXCharmander(7'd0), .leftXSquirtle(7'd74),
         .Y(Y), .topYCharmander(topYCharmander), .topYSquirtle(topYSquirtle),
@@ -61,7 +61,9 @@ module Pokemon(
         .leftX_wb6(leftX_wb6),
         .leftX_wb7(leftX_wb7),
         .leftX_wb8(leftX_wb8),
-        .leftX_wb9(leftX_wb9)
+        .leftX_wb9(leftX_wb9),
+        .Charmander_Alive(Charmander_Alive),
+        .Squirtle_Alive(Squirtle_Alive)
         );
     
     Pokemon_Logic logic(    
@@ -94,6 +96,8 @@ module Pokemon(
         .leftX_wb6(leftX_wb6),
         .leftX_wb7(leftX_wb7),
         .leftX_wb8(leftX_wb8),
-        .leftX_wb9(leftX_wb9)
+        .leftX_wb9(leftX_wb9),
+        .Charmander_Alive(Charmander_Alive),
+        .Squirtle_Alive(Squirtle_Alive)
     );
 endmodule
