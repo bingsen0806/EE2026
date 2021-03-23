@@ -32,7 +32,8 @@ module Pokemon(
     input clk_20Hz,
     input player1_shoot,
     input player2_shoot,
-    input [7:0] random_number
+    input [7:0] random_number,
+    input [3:0] volume_level
     );
     
     wire [5:0] topYCharmander; wire [5:0] topYSquirtle;
@@ -108,6 +109,7 @@ module Pokemon(
         .Health_Charmander(Health_Charmander),
         .Health_Squirtle(Health_Squirtle),
         .Shield_EN(Shield_EN),
-        .random_number(random_number)
+        .random_number(random_number),
+        .volume_level(volume_level)
     );
 endmodule

@@ -113,6 +113,7 @@ module Top_Student (
         .clk_20Hz(clk_20),
         .player1_shoot(sw[15]),
         .player2_shoot(sw[14]),
-        .random_number(random_number)
+        .random_number(random_number),
+        .volume_level(volume_level_peak)
         );   
 endmodule

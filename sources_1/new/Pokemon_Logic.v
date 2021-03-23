@@ -40,7 +40,8 @@ module Pokemon_Logic(
     output [31:0] Health_Charmander,
     output [31:0] Health_Squirtle,
     output reg [5:0] Shield_EN = 6'b000000,
-    input [7:0] random_number
+    input [7:0] random_number,
+    input [3:0] volume_level
     );
     
     parameter [6:0] INITIAL_LEFT_FB = 7'd17;
@@ -71,8 +72,8 @@ module Pokemon_Logic(
     reg [5:0] botY_Waterball [8:0];
     reg can_shoot_1 = 1; reg can_shoot_2 = 1; reg [5:0] coolDown_1 = 6'd0; reg[5:0] coolDown_2 = 6'd0;
     reg [31:0] HP_Squirtle = MAX_HP; reg [31:0] HP_Charmander = MAX_HP;
-    reg [7:0] ShieldChance_Char = SHIELD_CHANCE_CHAR_HIGH; reg [7:0] ShieldChance_Squir = SHIELD_CHANCE_SQUIR_HIGH;
-    
+    reg [7:0] ShieldChance_Char = SHIELD_CHANCE_CHAR_LOW; reg [7:0] ShieldChance_Squir = SHIELD_CHANCE_SQUIR_LOW;
+    reg [5:0] ShootRate = SLOW_SHOOT_RATE;
     
     initial begin
         for (i = 0; i <= 8; i = i + 1) begin
@@ -96,7 +97,19 @@ module Pokemon_Logic(
             end
         end
     end
-
+    
+    always @ (volume_level) begin
+        ShieldChance_Char <= volume_level % 3 == 4'd0 ?  SHIELD_CHANCE_CHAR_LOW:
+                             volume_level % 3 == 4'd1 ? SHIELD_CHANCE_CHAR_MID:
+                             SHIELD_CHANCE_CHAR_HIGH;
+        ShieldChance_Squir <= volume_level % 3 == 4'd0 ?  SHIELD_CHANCE_SQUIR_HIGH:
+                             volume_level % 3 == 4'd1 ? SHIELD_CHANCE_SQUIR_MID:
+                             SHIELD_CHANCE_SQUIR_LOW; 
+        ShootRate <= (volume_level < 4'd6) ? SLOW_SHOOT_RATE :
+                     (volume_level < 4'd11) ? MEDIUM_SHOOT_RATE :  
+                     FAST_SHOOT_RATE; 
+    end
+    
     always @(posedge single_pulse_clk) begin
         if (HP_Charmander == 0) Charmander_Alive <= 0;
         if (HP_Squirtle == 0) Squirtle_Alive <= 0;
@@ -193,7 +206,7 @@ module Pokemon_Logic(
             end
         end else begin      //Still in cooldown stage
             coolDown_1 <= coolDown_1 + 1;
-            if (coolDown_1 == SLOW_SHOOT_RATE - 1) begin
+            if (coolDown_1 >= ShootRate - 1) begin
                 can_shoot_1 <= 1;
                 coolDown_1 <= 0;
             end
@@ -231,7 +244,7 @@ module Pokemon_Logic(
             end
         end else begin      //Still in cooldown stage
             coolDown_2 <= coolDown_2 + 1;
-            if (coolDown_2 == SLOW_SHOOT_RATE - 1) begin
+            if (coolDown_2 >= ShootRate - 1) begin //changed to >=
                 can_shoot_2 <= 1;
                 coolDown_2 <= 0;
             end
