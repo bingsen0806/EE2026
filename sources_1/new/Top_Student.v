@@ -41,7 +41,7 @@ module Top_Student (
     
     //Clocks
     wire clk_6p25M; wire clk_1k; wire clk_20k; wire clk_20; wire clk_400; wire clk_5;
-    wire clk_10;
+    wire clk_10; wire clk_16p67M;
     clk1k clk1kHz(basys_clk,clk_1k);
     clk5Hz clk_5Hz(basys_clk,clk_5);
     clk10Hz clk_10Hz(basys_clk,clk_10);
@@ -49,7 +49,7 @@ module Top_Student (
     clk20Hz clk_20Hz(basys_clk,clk_20);
     clk400Hz clk_400Hz(basys_clk,clk_400);
     clk6p25Mhz clk6p25Mhz(basys_clk,clk_6p25M);
-
+    clk16p67MHz clk_16p67Mhz(basys_clk,clk_16p67M);
     //Buttons
     wire centreButton; wire upButton; wire downButton; wire leftButton; wire rightButton;
     single_pulse btn_C(btnC, clk_1k, centreButton);
@@ -95,6 +95,9 @@ module Top_Student (
     Seven_Segment_Sound soundDisplay(.display_clk(clk_400), .update_volume_clk(clk_10),.an(an),.seg(seg),.volume_raw(raw_mic_in),.volume_level_peak(volume_level_peak),.sw(sw),.volume_level_raw(volume_level_raw),.freq(freq));
     Frequency frequency(.clk_20kHz(clk_20k), .mic_in(mic_in), .freq_level(freq_level), .freq(freq));
     
+    //Random Number Generator
+    wire [7:0] random_number;
+    Rng_8Bit rng1(.rng_clk(clk_16p67M),.rst(1'b0),.random_number(random_number));
     //Pixel
     wire [6:0] X; wire [5:0] Y;
     Pixel_Coordinate pixel(.pixel_index(pixel_index),.X(X),.Y(Y));
@@ -109,6 +112,7 @@ module Top_Student (
         .oled_data (oled_data),
         .clk_20Hz(clk_20),
         .player1_shoot(sw[15]),
-        .player2_shoot(sw[14])
+        .player2_shoot(sw[14]),
+        .random_number(random_number)
         );   
 endmodule

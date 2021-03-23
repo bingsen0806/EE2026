@@ -36,7 +36,11 @@ module Pokemon_Logic(
     output [6:0] leftX_fb1, leftX_fb2, leftX_fb3, leftX_fb4, leftX_fb5, leftX_fb6, leftX_fb7, leftX_fb8, leftX_fb9,
     output [6:0] leftX_wb1, leftX_wb2, leftX_wb3, leftX_wb4, leftX_wb5, leftX_wb6, leftX_wb7, leftX_wb8, leftX_wb9,
     output reg Charmander_Alive = 1,
-    output reg Squirtle_Alive = 1
+    output reg Squirtle_Alive = 1,
+    output [31:0] Health_Charmander,
+    output [31:0] Health_Squirtle,
+    output reg [5:0] Shield_EN = 6'b000000,
+    input [7:0] random_number
     );
     
     parameter [6:0] INITIAL_LEFT_FB = 7'd17;
@@ -44,6 +48,13 @@ module Pokemon_Logic(
     parameter [5:0] SLOW_SHOOT_RATE = 6'd20;
     parameter [5:0] MEDIUM_SHOOT_RATE = 6'd15;
     parameter [5:0] FAST_SHOOT_RATE = 6'd10;
+    parameter [31:0] MAX_HP = 32'd5;
+    parameter [7:0] SHIELD_CHANCE_CHAR_LOW = 8'd3; //modulus 17
+    parameter [7:0] SHIELD_CHANCE_CHAR_MID = 8'd6;
+    parameter [7:0] SHIELD_CHANCE_CHAR_HIGH = 8'd9;
+    parameter [7:0] SHIELD_CHANCE_SQUIR_LOW = 8'd6; //modulus 37
+    parameter [7:0] SHIELD_CHANCE_SQUIR_MID = 8'd13;
+    parameter [7:0] SHIELD_CHANCE_SQUIR_HIGH = 8'd18;
     
     integer i; 
     integer j;
@@ -59,7 +70,10 @@ module Pokemon_Logic(
     reg [5:0] botY_Fireball [8:0];
     reg [5:0] botY_Waterball [8:0];
     reg can_shoot_1 = 1; reg can_shoot_2 = 1; reg [5:0] coolDown_1 = 6'd0; reg[5:0] coolDown_2 = 6'd0;
-    reg [3:0] HP_Squirtle = 4'd5; reg [3:0] HP_Charmander = 4'd5;
+    reg [31:0] HP_Squirtle = MAX_HP; reg [31:0] HP_Charmander = MAX_HP;
+    reg [7:0] ShieldChance_Char = SHIELD_CHANCE_CHAR_HIGH; reg [7:0] ShieldChance_Squir = SHIELD_CHANCE_SQUIR_HIGH;
+    
+    
     initial begin
         for (i = 0; i <= 8; i = i + 1) begin
             leftX_Waterball[i] = INITIAL_LEFT_WB;
@@ -83,7 +97,6 @@ module Pokemon_Logic(
         end
     end
 
-    
     always @(posedge single_pulse_clk) begin
         if (HP_Charmander == 0) Charmander_Alive <= 0;
         if (HP_Squirtle == 0) Squirtle_Alive <= 0;
@@ -100,6 +113,14 @@ module Pokemon_Logic(
     end
     
     always @(posedge clk_20Hz) begin
+        
+        //Reset The Shield To 0
+        Shield_EN[0] <= 1'b0;
+        Shield_EN[1] <= 1'b0;
+        Shield_EN[2] <= 1'b0;
+        Shield_EN[3] <= 1'b0;
+        Shield_EN[4] <= 1'b0;
+        Shield_EN[5] <= 1'b0;
         
         //Move the FireBalls if they are enabled
         for (i = 0; i <= 8 ; i = i + 1) begin
@@ -218,18 +239,30 @@ module Pokemon_Logic(
         
         //Fire hits Squirtle or Water hits Charmander. Note that the logic only works for the 3 lanes
         for (i = 0; i <= 8; i = i + 1) begin
-            if (leftX_Fireball[i] + 7 >= 72 && topY_Fireball[i] >= topYSquirtle && topY_Fireball[i] <= topYSquirtle + 17) begin
+            if (Squirtle_Alive == 1 && leftX_Fireball[i] + 7 >= 72 && topY_Fireball[i] >= topYSquirtle && topY_Fireball[i] <= topYSquirtle + 17) begin
                 leftX_Fireball[i] <= INITIAL_LEFT_FB;
                 FireBall_EN[i] <= 0;
-                HP_Squirtle <= HP_Squirtle - 1;
+                if (random_number % 37 > ShieldChance_Squir) begin
+                    HP_Squirtle <= HP_Squirtle - 1;
+                end else begin
+                    if (topYSquirtle < 18) Shield_EN[3] <= 1;
+                    else if (topYSquirtle < 36) Shield_EN[4] <= 1;
+                    else Shield_EN[5] <= 1;
+                end
             end
         end
         
         for (i = 0; i <= 8; i = i + 1) begin
-            if (leftX_Waterball[i] <= 23 && topY_Waterball[i] >= topYCharmander && topY_Waterball[i] <= topYCharmander + 17) begin
+            if (Charmander_Alive == 1 && leftX_Waterball[i] <= 23 && topY_Waterball[i] >= topYCharmander && topY_Waterball[i] <= topYCharmander + 17) begin
                 leftX_Waterball[i] <= INITIAL_LEFT_WB;
                 WaterBall_EN[i] <= 0;
-                HP_Charmander <= HP_Charmander - 1;
+                if (random_number % 17 > ShieldChance_Char) begin
+                    HP_Charmander <= HP_Charmander - 1;
+                end else begin
+                    if (topYCharmander < 18) Shield_EN[0] <= 1;
+                    else if (topYCharmander < 36) Shield_EN[1] <= 1;
+                    else Shield_EN[2] <= 1;                
+                end
             end
         end
     end
@@ -253,4 +286,7 @@ module Pokemon_Logic(
     assign leftX_wb7 = leftX_Waterball[6];
     assign leftX_wb8 = leftX_Waterball[7];
     assign leftX_wb9 = leftX_Waterball[8];
+    
+    assign Health_Charmander = HP_Charmander * 100 / MAX_HP;
+    assign Health_Squirtle = HP_Squirtle * 100 / MAX_HP;
 endmodule
