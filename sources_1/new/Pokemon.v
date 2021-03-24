@@ -48,7 +48,7 @@ module Pokemon(
     wire [31:0] Health_Charmander, Health_Squirtle;
     wire [5:0] Shield_EN;
     Pokemon_Display pokemon_display(
-        .X(X), .leftXCharmander(7'd0), .leftXSquirtle(7'd74),
+        .X(X), .leftXCharmander(7'd1), .leftXSquirtle(7'd74),
         .Y(Y), .topYCharmander(topYCharmander), .topYSquirtle(topYSquirtle),
         .oled_data(oled_data),.fireball_EN(FireBall_EN),
         .leftX_fb1(leftX_fb1),

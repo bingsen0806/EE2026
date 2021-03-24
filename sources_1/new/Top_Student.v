@@ -101,7 +101,7 @@ module Top_Student (
     wire [7:0] random_number;
     Rng_8Bit rng1(.rng_clk(clk_16p67M),.rst(1'b0),.random_number(random_number));
     //Pixel
-    wire [6:0] X; wire [5:0] Y;
+    wire [6:0] X; wire [5:0] Y; wire [15:0] oled_pokemon;
     Pixel_Coordinate pixel(.pixel_index(pixel_index),.X(X),.Y(Y));
     Pokemon pokemon(
         .X (X),
@@ -119,4 +119,5 @@ module Top_Student (
         .volume_level(volume_level_peak),
         .clk_50Hz(clk_50)
         );   
+        
 endmodule

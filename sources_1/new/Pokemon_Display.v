@@ -36,7 +36,9 @@ module Pokemon_Display(
     input Squirtle_Alive,
     input [5:0] shield_EN
     );
+    
     parameter [15:0] BACKGROUND = 16'b11111_111111_11111;
+    //wire [15:0] BACKGROUND;
     wire [15:0] oled_charmander, oled_squirtle;
     wire [15:0] oled_fb_lane1_1, oled_fb_lane1_2, oled_fb_lane1_3, oled_fb_lane2_1, oled_fb_lane2_2;
     wire [15:0] oled_fb_lane2_3, oled_fb_lane3_1, oled_fb_lane3_2, oled_fb_lane3_3;
@@ -50,6 +52,7 @@ module Pokemon_Display(
     Charmander charmander(.X(X),.Y(Y),.leftX(leftXCharmander),.topY(topYCharmander),.BACKGROUND(BACKGROUND),.oled_data(oled_charmander));
     Squirtle squirtle(.X(X),.Y(Y),.leftX(leftXSquirtle),.topY(topYSquirtle),.BACKGROUND(BACKGROUND),.oled_data(oled_squirtle));
     
+    //Stadium stadium (.X(X), .Y(Y), .oled_data(BACKGROUND));
     FireBall lane1_1 (.X(X),.Y(Y),.leftX(leftX_fb1),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane1_1));
     FireBall lane1_2 (.X(X),.Y(Y),.leftX(leftX_fb2),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane1_2));
     FireBall lane1_3 (.X(X),.Y(Y),.leftX(leftX_fb3),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane1_3));

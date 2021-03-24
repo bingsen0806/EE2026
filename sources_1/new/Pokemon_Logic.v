@@ -29,8 +29,8 @@ module Pokemon_Logic(
     input player2_down,
     input player1Shoot,
     input player2Shoot,
-    output reg [5:0] topYCharmander = 6'd18,
-    output reg [5:0] topYSquirtle = 6'd18,
+    output reg [5:0] topYCharmander = 6'd19, //changed from 18
+    output reg [5:0] topYSquirtle = 6'd19, //changed from 18
     output [11:0] FireBall_EN, //changed size
     output [11:0] WaterBall_EN, //changed size
     output [6:0] leftX_fb1, leftX_fb2, leftX_fb3, leftX_fb4, leftX_fb5, leftX_fb6, leftX_fb7, leftX_fb8, leftX_fb9,leftX_fb10, leftX_fb11, leftX_fb12, //added
@@ -57,6 +57,9 @@ module Pokemon_Logic(
     parameter [7:0] SHIELD_CHANCE_SQUIR_LOW = 8'd3; //modulus 17
     parameter [7:0] SHIELD_CHANCE_SQUIR_MID = 8'd6;
     parameter [7:0] SHIELD_CHANCE_SQUIR_HIGH = 8'd9;
+    parameter [7:0] BALL_MOVE_CHANCE_1 = 8'd3; //modulus 13
+    parameter [7:0] BALL_MOVE_CHANCE_2 = 8'd4; //modulus 23
+    parameter [7:0] BALL_MOVE_CHANCE_3 = 8'd6; //modulus 29
     
     integer i; 
     integer j;
@@ -76,6 +79,10 @@ module Pokemon_Logic(
     reg [7:0] ShieldChance_Char = SHIELD_CHANCE_CHAR_LOW; reg [7:0] ShieldChance_Squir = SHIELD_CHANCE_SQUIR_LOW;
     reg [5:0] ShootRate = SLOW_SHOOT_RATE;
     reg [5:0] Shield_Count = 6'b000000;
+    
+    reg [3:0] rightMost_Fire = 4'b1111; // represents the rightmost fireball, 15 by default means no rightmost
+    reg [6:0] rightmost = 7'b0000000; //temporary variable to store rightmost fire ball X value
+    reg [1:0] movement = 2'd0; //0 is stay, 1 is move down, 2 is move up, 3 is split
     
     initial begin
         for (i = 0; i <= 11; i = i + 1) begin //changed condition
@@ -127,27 +134,19 @@ module Pokemon_Logic(
     always @(posedge single_pulse_clk) begin
         if (HP_Charmander == 0) Charmander_Alive <= 0;
         if (HP_Squirtle == 0) Squirtle_Alive <= 0;
-        if (player2_up == 1 && topYSquirtle >=18) begin
+        if (player2_up == 1 && topYSquirtle >=19) begin //chaned 18 to 19 and 36 to 37 below
             topYSquirtle <= topYSquirtle - 18;
-        end else if (player2_down == 1 && topYSquirtle < 36) begin
+        end else if (player2_down == 1 && topYSquirtle < 37) begin
             topYSquirtle <= topYSquirtle + 18; 
         end
-        if (player1_up == 1 && topYCharmander >=18) begin
+        if (player1_up == 1 && topYCharmander >=19) begin
             topYCharmander <= topYCharmander - 18;
-        end else if (player1_down == 1 && topYCharmander < 36) begin
+        end else if (player1_down == 1 && topYCharmander < 37) begin
             topYCharmander <= topYCharmander + 18;
         end
     end
     
     always @(posedge clk_move_speed) begin
-        
-        //Reset The Shield To 0
-//        Shield_EN[0] <= 1'b0;
-//        Shield_EN[1] <= 1'b0;
-//        Shield_EN[2] <= 1'b0;
-//        Shield_EN[3] <= 1'b0;
-//        Shield_EN[4] <= 1'b0;
-//        Shield_EN[5] <= 1'b0;
         
         //Disable shield animation after certain time
         for (i = 0; i <= 5; i = i + 1) begin
@@ -159,6 +158,16 @@ module Pokemon_Logic(
                 end
             end 
         end        
+        
+        rightMost_Fire = 4'b1111;
+        rightmost = 7'b0000000;
+        //Randomly Swap RightMost FireBall Position
+        for (i = 0; i <= 11 ; i = i + 1) begin //find rightmost fireball
+            if (FireBall_EN[i] == 1 && leftX_Fireball[i] > rightmost)begin
+                rightmost = leftX_Fireball[i];
+                rightMost_Fire = i;
+            end     
+        end
         
         //Move the FireBalls if they are enabled
         for (i = 0; i <= 11 ; i = i + 1) begin //changed condition
@@ -182,6 +191,7 @@ module Pokemon_Logic(
             end
         end
         
+        
         //Remove the balls if any two FireBall and WaterBall clashes
         for (i = 0; i <= 11 ; i = i + 1) begin //changed condition
             for (j = 0; j <= 11; j = j + 1) begin //changed condition
@@ -202,7 +212,7 @@ module Pokemon_Logic(
         //Player 1 Shoots if can_shoot_1 and the switch is on
         if (can_shoot_1 == 1) begin
             if (player1Shoot == 1 && Charmander_Alive == 1) begin
-                if (topYCharmander < 18) begin
+                if (topYCharmander < 19) begin //changed
                     for (i = 0; (i <= 2 && k == 1); i = i + 1) begin
                         if (FireBall_EN[i] == 0) begin
                             FireBall_EN[i] <= 1;
@@ -213,7 +223,7 @@ module Pokemon_Logic(
                         end
                     end
                     k = 1;
-                end else if (topYCharmander < 36) begin
+                end else if (topYCharmander < 37) begin //changed
                     for (i = 3; (i <= 5 && k == 1); i = i + 1) begin
                         if (FireBall_EN[i] == 0) begin
                             FireBall_EN[i] <= 1;
@@ -249,7 +259,7 @@ module Pokemon_Logic(
         //Player 2 shoots if can_shoot_2 and switch is on
         if (can_shoot_2 == 1) begin
             if (player2Shoot == 1 && Squirtle_Alive == 1) begin
-                if (topYSquirtle < 18) begin
+                if (topYSquirtle < 19) begin //changed
                     for (i = 0; (i <= 2 && k == 1); i = i + 1) begin
                         if (WaterBall_EN[i] == 0) begin
                             WaterBall_EN[i] <= 1;
@@ -260,7 +270,7 @@ module Pokemon_Logic(
                         end
                     end
                     k = 1;
-                end else if (topYSquirtle < 36) begin
+                end else if (topYSquirtle < 37) begin //changed
                     for (i = 3; (i <= 5 && k == 1); i = i + 1) begin
                         if (WaterBall_EN[i] == 0) begin
                             WaterBall_EN[i] <= 1;
@@ -271,7 +281,7 @@ module Pokemon_Logic(
                         end
                     end
                     k = 1;                
-                end else if (topYSquirtle < 54) begin
+                end else if (topYSquirtle < 55) begin //changed
                     for (i = 6; (i <= 8 && k == 1); i = i + 1) begin
                         if (WaterBall_EN[i] == 0) begin
                             WaterBall_EN[i] <= 1;
@@ -301,22 +311,22 @@ module Pokemon_Logic(
                 if (random_number % 17 > ShieldChance_Squir) begin
                     HP_Squirtle <= HP_Squirtle - 1;
                 end else begin
-                    if (topYSquirtle < 18) Shield_EN[3] <= 1;
-                    else if (topYSquirtle < 36) Shield_EN[4] <= 1;
+                    if (topYSquirtle < 19) Shield_EN[3] <= 1; //changed to 19
+                    else if (topYSquirtle < 37) Shield_EN[4] <= 1; //changed to 37
                     else Shield_EN[5] <= 1;
                 end
             end
         end
         
         for (i = 0; i <= 11; i = i + 1) begin //changed condition
-            if (Charmander_Alive == 1 && leftX_Waterball[i] <= 23 && topY_Waterball[i] >= topYCharmander && topY_Waterball[i] <= topYCharmander + 17) begin
+            if (Charmander_Alive == 1 && leftX_Waterball[i] <= 24 && topY_Waterball[i] >= topYCharmander && topY_Waterball[i] <= topYCharmander + 17) begin //changed to 24
                 leftX_Waterball[i] <= INITIAL_LEFT_WB;
                 WaterBall_EN[i] <= 0;
                 if (random_number % 17 > ShieldChance_Char) begin
                     HP_Charmander <= HP_Charmander - 1;
                 end else begin
-                    if (topYCharmander < 18) Shield_EN[0] <= 1;
-                    else if (topYCharmander < 36) Shield_EN[1] <= 1;
+                    if (topYCharmander < 19) Shield_EN[0] <= 1; //changed
+                    else if (topYCharmander < 37) Shield_EN[1] <= 1;//changed
                     else Shield_EN[2] <= 1;                
                 end
             end
