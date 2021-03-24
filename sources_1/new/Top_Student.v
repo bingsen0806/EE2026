@@ -117,7 +117,8 @@ module Top_Student (
         .player2_shoot(sw[14]),
         .random_number(random_number),
         .volume_level(volume_level_peak),
-        .clk_50Hz(clk_50)
+        .clk_50Hz(clk_50),
+        .raw_mic_data(raw_mic_in)
         );   
         
 endmodule

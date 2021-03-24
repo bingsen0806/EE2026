@@ -34,7 +34,8 @@ module Pokemon(
     input player2_shoot,
     input [7:0] random_number,
     input [3:0] volume_level,
-    input clk_50Hz
+    input clk_50Hz,
+    input [11:0] raw_mic_data
     );
     
     wire [5:0] topYCharmander; wire [5:0] topYSquirtle;
@@ -47,6 +48,7 @@ module Pokemon(
     wire Charmander_Alive, Squirtle_Alive;
     wire [31:0] Health_Charmander, Health_Squirtle;
     wire [5:0] Shield_EN;
+    
     Pokemon_Display pokemon_display(
         .X(X), .leftXCharmander(7'd1), .leftXSquirtle(7'd74),
         .Y(Y), .topYCharmander(topYCharmander), .topYSquirtle(topYSquirtle),
@@ -127,6 +129,7 @@ module Pokemon(
         .Health_Squirtle(Health_Squirtle),
         .Shield_EN(Shield_EN),
         .random_number(random_number),
-        .volume_level(volume_level)
+        .volume_level(volume_level),
+        .raw_mic_data(raw_mic_data)
     );
 endmodule

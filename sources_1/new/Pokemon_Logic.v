@@ -42,7 +42,8 @@ module Pokemon_Logic(
     output reg [5:0] Shield_EN = 6'b000000,
     input [7:0] random_number,
     input [3:0] volume_level,
-    input clk_shield //added
+    input clk_shield, //added
+    input [11:0] raw_mic_data
     );
     
     parameter [6:0] INITIAL_LEFT_FB = 7'd17;
@@ -50,7 +51,7 @@ module Pokemon_Logic(
     parameter [5:0] SLOW_SHOOT_RATE = 6'd27;
     parameter [5:0] MEDIUM_SHOOT_RATE = 6'd20;
     parameter [5:0] FAST_SHOOT_RATE = 6'd13;
-    parameter [31:0] MAX_HP = 32'd5;
+    parameter [31:0] MAX_HP = 32'd20;
     parameter [7:0] SHIELD_CHANCE_CHAR_LOW = 8'd3; //modulus 17
     parameter [7:0] SHIELD_CHANCE_CHAR_MID = 8'd6;
     parameter [7:0] SHIELD_CHANCE_CHAR_HIGH = 8'd9;
@@ -80,8 +81,12 @@ module Pokemon_Logic(
     
     reg [3:0] rightMost_Fire = 4'b1111; // represents the rightmost fireball, 15 by default means no rightmost
     reg [6:0] rightmost = 7'b0000000; //temporary variable to store rightmost fire ball X value
+    reg [3:0] rightMost_Water = 4'b1111; // represents the rightmost waterball, 15 by default means no rightmost
+    reg [6:0] rightmost_2 = 7'b1011111; //temporary variable to store rightmost water ball X value
     reg [1:0] movement = 2'd0; //0 is stay, 1 is move down, 2 is move up, 3 is split
-    
+    reg can_move_fireball = 1; reg [5:0] count_can_move_fireball = 6'b000000;
+    reg can_move_waterball = 1; reg [5:0] count_can_move_waterball = 6'b000000;
+
     initial begin
         for (i = 0; i <= 11; i = i + 1) begin //changed condition
             leftX_Waterball[i] = INITIAL_LEFT_WB;
@@ -132,6 +137,12 @@ module Pokemon_Logic(
         end
     end
     
+    always @(raw_mic_data) begin //use environment variable as random generator for split
+        movement = (raw_mic_data % 4 == 0) ? 2'b00 :
+                   (raw_mic_data % 4 == 1) ? 2'b01 :
+                   (raw_mic_data % 4 == 2) ? 2'b10 : 2'b11;
+    end
+
     always @(posedge clk_move_speed) begin
         
         //Disable shield animation after certain time
@@ -143,18 +154,173 @@ module Pokemon_Logic(
                     Shield_EN[i] <= 0;
                 end
             end 
-        end        
+        end    
         
         rightMost_Fire = 4'b1111;
         rightmost = 7'b0000000;
-        //Randomly Swap RightMost FireBall Position
-        for (i = 0; i <= 11 ; i = i + 1) begin //find rightmost fireball
-            if (FireBall_EN[i] == 1 && leftX_Fireball[i] > rightmost)begin
+        k = 1;
+        for (i = 0; i <= 11 ; i = i + 1) begin //find rightmost fireball that has not passed Squirtle
+            if (FireBall_EN[i] == 1 && leftX_Fireball[i] > rightmost && leftX_Fireball[i] < 7'd65) begin //72-7, not 72
                 rightmost = leftX_Fireball[i];
                 rightMost_Fire = i;
             end     
         end
-        
+        //Randomly Swap RightMost FireBall Position
+        if (rightMost_Fire <= 4'b1011 && rightmost > 7'b0000000) begin
+            if (can_move_fireball == 1) begin
+                case(movement)
+                2'b00: begin //stay
+                    can_move_fireball <= 0;
+                end
+                2'b01: begin //down
+                    can_move_fireball <= 0;
+                    if (topY_Fireball[rightMost_Fire] < 19) begin
+                        for (i = 4; (i <= 7 && k == 1); i = i + 1) begin
+                            if (FireBall_EN[i] == 0) begin
+                                FireBall_EN[rightMost_Fire] = 0;
+                                leftX_Fireball[i] = leftX_Fireball[rightMost_Fire];
+                                leftX_Fireball[rightMost_Fire] = INITIAL_LEFT_FB;
+                                FireBall_EN[i] = 1;
+                                k = 0;
+                            end
+                        end
+                        k = 1;
+                    end else if (topY_Fireball[rightMost_Fire] < 37) begin
+                        for (i = 8; (i <= 11 && k == 1); i = i + 1) begin
+                            if (FireBall_EN[i] == 0) begin
+                                FireBall_EN[rightMost_Fire] = 0;
+                                leftX_Fireball[i] = leftX_Fireball[rightMost_Fire];
+                                leftX_Fireball[rightMost_Fire] = INITIAL_LEFT_FB;
+                                FireBall_EN[i] = 1;
+                                k = 0;
+                            end
+                        end
+                        k = 1;
+                    end
+                end
+                2'b10: begin //up
+                    can_move_fireball <= 0;
+                    if (topY_Fireball[rightMost_Fire] > 37) begin
+                        for (i = 4; (i <= 7 && k == 1); i = i + 1) begin
+                            if (FireBall_EN[i] == 0) begin
+                                FireBall_EN[rightMost_Fire] = 0;
+                                leftX_Fireball[i] = leftX_Fireball[rightMost_Fire];
+                                leftX_Fireball[rightMost_Fire] = INITIAL_LEFT_FB;
+                                FireBall_EN[i] = 1;
+                                k = 0;
+                            end
+                        end
+                        k = 1;
+                    end else if (topY_Fireball[rightMost_Fire] > 19) begin
+                        for (i = 0; (i <= 3 && k == 1); i = i + 1) begin
+                            if (FireBall_EN[i] == 0) begin
+                                FireBall_EN[rightMost_Fire] = 0;
+                                leftX_Fireball[i] = leftX_Fireball[rightMost_Fire];
+                                leftX_Fireball[rightMost_Fire] = INITIAL_LEFT_FB;
+                                FireBall_EN[i] = 1;
+                                k = 0;
+                            end
+                        end
+                        k = 1;
+                    end
+                end
+                2'b11: begin //stay
+                    can_move_fireball <= 0;
+                end
+                endcase
+            end else begin
+                count_can_move_fireball <= count_can_move_fireball + 1;
+                if (count_can_move_fireball == MEDIUM_SHOOT_RATE - 1) begin
+                    count_can_move_fireball <= 0;
+                    can_move_fireball <= 1;
+                end
+            end
+        end
+
+        //Random movement of water ball
+        rightMost_Water = 4'b1111; //actually is leftmost
+        rightmost_2 = 7'b1011111;
+        k = 1;
+        for (i = 0; i <= 11 ; i = i + 1) begin //find leftmost waterball that has not passed Squirtle
+            if (WaterBall_EN[i] == 1 && leftX_Waterball[i] < rightmost_2 && leftX_Waterball[i] > 7'd24) begin
+                rightmost_2 = leftX_Waterball[i];
+                rightMost_Water = i;
+            end     
+        end
+        //Randomly Swap LeftMost WaterBall Position
+        if (rightMost_Water <= 4'b1011 && rightmost_2 < 7'b1011111) begin
+            if (can_move_waterball == 1) begin
+                case(movement)
+                2'b00: begin //stay
+                    can_move_waterball <= 0;
+                end
+                2'b01: begin //down
+                    can_move_waterball <= 0;
+                    if (topY_Waterball[rightMost_Water] < 19) begin
+                        for (i = 4; (i <= 7 && k == 1); i = i + 1) begin
+                            if (WaterBall_EN[i] == 0) begin
+                                WaterBall_EN[rightMost_Water] = 0;
+                                leftX_Waterball[i] = leftX_Waterball[rightMost_Water];
+                                leftX_Waterball[rightMost_Water] = INITIAL_LEFT_WB;
+                                WaterBall_EN[i] = 1;
+                                k = 0;
+                            end
+                        end
+                        k = 1;
+                    end else if (topY_Waterball[rightMost_Water] < 37) begin
+                        for (i = 8; (i <= 11 && k == 1); i = i + 1) begin
+                            if (WaterBall_EN[i] == 0) begin
+                                WaterBall_EN[rightMost_Water] = 0;
+                                leftX_Waterball[i] = leftX_Waterball[rightMost_Water];
+                                leftX_Waterball[rightMost_Water] = INITIAL_LEFT_WB;
+                                WaterBall_EN[i] = 1;
+                                k = 0;
+                            end
+                        end
+                        k = 1;
+                    end
+                end
+                2'b10: begin //up
+                    can_move_waterball <= 0;
+                    if (topY_Waterball[rightMost_Water] > 37) begin
+                        for (i = 4; (i <= 7 && k == 1); i = i + 1) begin
+                            if (WaterBall_EN[i] == 0) begin
+                                WaterBall_EN[rightMost_Water] = 0;
+                                leftX_Waterball[i] = leftX_Waterball[rightMost_Water];
+                                leftX_Waterball[rightMost_Water] = INITIAL_LEFT_WB;
+                                WaterBall_EN[i] = 1;
+                                k = 0;
+                            end
+                        end
+                        k = 1;
+                    end else if (topY_Waterball[rightMost_Water] > 19) begin
+                        for (i = 0; (i <= 3 && k == 1); i = i + 1) begin
+                            if (WaterBall_EN[i] == 0) begin
+                                WaterBall_EN[rightMost_Water] = 0;
+                                leftX_Waterball[i] = leftX_Waterball[rightMost_Water];
+                                leftX_Waterball[rightMost_Water] = INITIAL_LEFT_WB;
+                                WaterBall_EN[i] = 1;
+                                k = 0;
+                            end
+                        end
+                        k = 1;
+                    end
+                end
+                2'b11: begin //stay
+                    can_move_waterball <= 0;
+                end
+                endcase
+            end else begin
+                count_can_move_waterball <= count_can_move_waterball + 1;
+                if (count_can_move_waterball == MEDIUM_SHOOT_RATE - 1) begin
+                    count_can_move_waterball <= 0;
+                    can_move_waterball <= 1;
+                end
+            end
+        end
+
+
+
         //Move the FireBalls if they are enabled
         for (i = 0; i <= 11 ; i = i + 1) begin //changed condition
             //FireBall
