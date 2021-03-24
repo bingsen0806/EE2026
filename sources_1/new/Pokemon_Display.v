@@ -56,27 +56,31 @@ module Pokemon_Display(
     FireBall lane1_1 (.X(X),.Y(Y),.leftX(leftX_fb1),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane1_1));
     FireBall lane1_2 (.X(X),.Y(Y),.leftX(leftX_fb2),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane1_2));
     FireBall lane1_3 (.X(X),.Y(Y),.leftX(leftX_fb3),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane1_3));
-    FireBall lane2_1 (.X(X),.Y(Y),.leftX(leftX_fb4),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane2_1));
-    FireBall lane2_2 (.X(X),.Y(Y),.leftX(leftX_fb5),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane2_2));
-    FireBall lane2_3 (.X(X),.Y(Y),.leftX(leftX_fb6),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane2_3));
-    FireBall lane3_1 (.X(X),.Y(Y),.leftX(leftX_fb7),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane3_1));
-    FireBall lane3_2 (.X(X),.Y(Y),.leftX(leftX_fb8),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane3_2));
-    FireBall lane3_3 (.X(X),.Y(Y),.leftX(leftX_fb9),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane3_3));
-    FireBall lane1_4 (.X(X),.Y(Y),.leftX(leftX_fb10),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane1_4));
-    FireBall lane2_4 (.X(X),.Y(Y),.leftX(leftX_fb11),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane2_4));
+    FireBall lane1_4 (.X(X),.Y(Y),.leftX(leftX_fb4),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane1_4));
+    
+    FireBall lane2_1 (.X(X),.Y(Y),.leftX(leftX_fb5),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane2_1));
+    FireBall lane2_2 (.X(X),.Y(Y),.leftX(leftX_fb6),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane2_2));
+    FireBall lane2_3 (.X(X),.Y(Y),.leftX(leftX_fb7),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane2_3));
+    FireBall lane2_4 (.X(X),.Y(Y),.leftX(leftX_fb8),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane2_4));
+    
+    FireBall lane3_1 (.X(X),.Y(Y),.leftX(leftX_fb9),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane3_1));
+    FireBall lane3_2 (.X(X),.Y(Y),.leftX(leftX_fb10),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane3_2));
+    FireBall lane3_3 (.X(X),.Y(Y),.leftX(leftX_fb11),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane3_3));
     FireBall lane3_4 (.X(X),.Y(Y),.leftX(leftX_fb12),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane3_4));
     
     WaterBall lane1_1_wb (.X(X),.Y(Y),.leftX(leftX_wb1),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane1_1));
     WaterBall lane1_2_wb (.X(X),.Y(Y),.leftX(leftX_wb2),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane1_2));
     WaterBall lane1_3_wb (.X(X),.Y(Y),.leftX(leftX_wb3),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane1_3));
-    WaterBall lane2_1_wb (.X(X),.Y(Y),.leftX(leftX_wb4),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane2_1));
-    WaterBall lane2_2_wb (.X(X),.Y(Y),.leftX(leftX_wb5),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane2_2));
-    WaterBall lane2_3_wb (.X(X),.Y(Y),.leftX(leftX_wb6),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane2_3));
-    WaterBall lane3_1_wb (.X(X),.Y(Y),.leftX(leftX_wb7),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane3_1));
-    WaterBall lane3_2_wb (.X(X),.Y(Y),.leftX(leftX_wb8),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane3_2));
-    WaterBall lane3_3_wb (.X(X),.Y(Y),.leftX(leftX_wb9),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane3_3));
-    WaterBall lane1_4_wb (.X(X),.Y(Y),.leftX(leftX_wb10),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane1_4));
-    WaterBall lane2_4_wb (.X(X),.Y(Y),.leftX(leftX_wb11),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane2_4));
+    WaterBall lane1_4_wb (.X(X),.Y(Y),.leftX(leftX_wb4),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane1_4));
+    
+    WaterBall lane2_1_wb (.X(X),.Y(Y),.leftX(leftX_wb5),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane2_1));
+    WaterBall lane2_2_wb (.X(X),.Y(Y),.leftX(leftX_wb6),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane2_2));
+    WaterBall lane2_3_wb (.X(X),.Y(Y),.leftX(leftX_wb7),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane2_3));
+    WaterBall lane2_4_wb (.X(X),.Y(Y),.leftX(leftX_wb8),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane2_4));
+    
+    WaterBall lane3_1_wb (.X(X),.Y(Y),.leftX(leftX_wb9),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane3_1));
+    WaterBall lane3_2_wb (.X(X),.Y(Y),.leftX(leftX_wb10),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane3_2));
+    WaterBall lane3_3_wb (.X(X),.Y(Y),.leftX(leftX_wb11),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane3_3));
     WaterBall lane3_4_wb (.X(X),.Y(Y),.leftX(leftX_wb12),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane3_4));
     
     Heart heart1 (.X(X),.Y(Y),.leftX(7'd1),.topY(6'd59),.BACKGROUND(BACKGROUND),.oled_data(oled_heart1));
@@ -103,26 +107,26 @@ module Pokemon_Display(
                        (fireball_EN[0] == 1 && X >= leftX_fb1 && X <= leftX_fb1 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_fb_lane1_1:
                        (fireball_EN[1] == 1 && X >= leftX_fb2 && X <= leftX_fb2 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_fb_lane1_2:
                        (fireball_EN[2] == 1 && X >= leftX_fb3 && X <= leftX_fb3 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_fb_lane1_3:
-                       (fireball_EN[3] == 1 && X >= leftX_fb4 && X <= leftX_fb4 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_fb_lane2_1:
-                       (fireball_EN[4] == 1 && X >= leftX_fb5 && X <= leftX_fb5 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_fb_lane2_2:
-                       (fireball_EN[5] == 1 && X >= leftX_fb6 && X <= leftX_fb6 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_fb_lane2_3:
-                       (fireball_EN[6] == 1 && X >= leftX_fb7 && X <= leftX_fb7 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_fb_lane3_1:
-                       (fireball_EN[7] == 1 && X >= leftX_fb8 && X <= leftX_fb8 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_fb_lane3_2:
-                       (fireball_EN[8] == 1 && X >= leftX_fb9 && X <= leftX_fb9 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_fb_lane3_3:
-                       (fireball_EN[9] == 1 && X >= leftX_fb10 && X <= leftX_fb10 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_fb_lane1_4:
-                       (fireball_EN[10] == 1 && X >= leftX_fb11 && X <= leftX_fb11 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_fb_lane2_4:
+                       (fireball_EN[3] == 1 && X >= leftX_fb4 && X <= leftX_fb4 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_fb_lane1_4:
+                       (fireball_EN[4] == 1 && X >= leftX_fb5 && X <= leftX_fb5 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_fb_lane2_1:
+                       (fireball_EN[5] == 1 && X >= leftX_fb6 && X <= leftX_fb6 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_fb_lane2_2:
+                       (fireball_EN[6] == 1 && X >= leftX_fb7 && X <= leftX_fb7 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_fb_lane2_3:
+                       (fireball_EN[7] == 1 && X >= leftX_fb8 && X <= leftX_fb8 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_fb_lane2_4:
+                       (fireball_EN[8] == 1 && X >= leftX_fb9 && X <= leftX_fb9 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_fb_lane3_1:
+                       (fireball_EN[9] == 1 && X >= leftX_fb10 && X <= leftX_fb10 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_fb_lane3_2:
+                       (fireball_EN[10] == 1 && X >= leftX_fb11 && X <= leftX_fb11 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_fb_lane3_3:
                        (fireball_EN[11] == 1 && X >= leftX_fb12 && X <= leftX_fb12 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_fb_lane3_4:
                        (waterball_EN[0] == 1 && X >= leftX_wb1 && X <= leftX_wb1 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_wb_lane1_1:
                        (waterball_EN[1] == 1 && X >= leftX_wb2 && X <= leftX_wb2 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_wb_lane1_2:
                        (waterball_EN[2] == 1 && X >= leftX_wb3 && X <= leftX_wb3 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_wb_lane1_3:
-                       (waterball_EN[3] == 1 && X >= leftX_wb4 && X <= leftX_wb4 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_wb_lane2_1:
-                       (waterball_EN[4] == 1 && X >= leftX_wb5 && X <= leftX_wb5 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_wb_lane2_2:
-                       (waterball_EN[5] == 1 && X >= leftX_wb6 && X <= leftX_wb6 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_wb_lane2_3:
-                       (waterball_EN[6] == 1 && X >= leftX_wb7 && X <= leftX_wb7 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_wb_lane3_1:
-                       (waterball_EN[7] == 1 && X >= leftX_wb8 && X <= leftX_wb8 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_wb_lane3_2:
-                       (waterball_EN[8] == 1 && X >= leftX_wb9 && X <= leftX_wb9 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_wb_lane3_3:
-                       (waterball_EN[9] == 1 && X >= leftX_wb10 && X <= leftX_wb10 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_wb_lane1_4:
-                       (waterball_EN[10] == 1 && X >= leftX_wb11 && X <= leftX_wb11 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_wb_lane2_4:
+                       (waterball_EN[3] == 1 && X >= leftX_wb4 && X <= leftX_wb4 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_wb_lane1_4:
+                       (waterball_EN[4] == 1 && X >= leftX_wb5 && X <= leftX_wb5 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_wb_lane2_1:
+                       (waterball_EN[5] == 1 && X >= leftX_wb6 && X <= leftX_wb6 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_wb_lane2_2:
+                       (waterball_EN[6] == 1 && X >= leftX_wb7 && X <= leftX_wb7 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_wb_lane2_3:
+                       (waterball_EN[7] == 1 && X >= leftX_wb8 && X <= leftX_wb8 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_wb_lane2_4:
+                       (waterball_EN[8] == 1 && X >= leftX_wb9 && X <= leftX_wb9 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_wb_lane3_1:
+                       (waterball_EN[9] == 1 && X >= leftX_wb10 && X <= leftX_wb10 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_wb_lane3_2:
+                       (waterball_EN[10] == 1 && X >= leftX_wb11 && X <= leftX_wb11 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_wb_lane3_3:  
                        (waterball_EN[11] == 1 && X >= leftX_wb12 && X <= leftX_wb12 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_wb_lane3_4:
                        (X >= 7'd1 && X <= 7'd5 && Y >= 6'd59 && Y <= 6'd62) ? oled_heart1:
                        (X >= 7'd72 && X <= 7'd76 && Y >= 6'd59 && Y <= 6'd62) ? oled_heart2:

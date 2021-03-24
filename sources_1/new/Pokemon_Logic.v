@@ -64,8 +64,6 @@ module Pokemon_Logic(
     integer i; 
     integer j;
     integer k;
-//    reg [5:0] topYCharmander = 6'd18;
-//    reg [5:0] topYSquirtle = 6'd18;
     reg [11:0] FireBall_EN = 12'b00000_00000_00; //changed size
     reg [11:0] WaterBall_EN = 12'b00000_00000_00; //changed size
     reg [6:0] leftX_Fireball [11:0]; //changed size
@@ -88,12 +86,12 @@ module Pokemon_Logic(
         for (i = 0; i <= 11; i = i + 1) begin //changed condition
             leftX_Waterball[i] = INITIAL_LEFT_WB;
             leftX_Fireball[i] = INITIAL_LEFT_FB;     
-            if ((i >= 0 && i <= 2) || i == 9) begin //changed condition
+            if (i >= 0 && i <= 3) begin //changed condition
                 topY_Fireball[i] = 6'd6;
                 botY_Fireball[i] = 6'd13;
                 topY_Waterball[i] = 6'd6;
                 botY_Waterball[i] = 6'd13;
-            end else if ((i >= 3 && i <= 5) || i == 10 ) begin //changed condition
+            end else if (i >= 4 && i <= 7) begin //changed condition
                 topY_Fireball[i] = 6'd24;
                 botY_Fireball[i] = 6'd31;
                 topY_Waterball[i] = 6'd24;
@@ -118,18 +116,6 @@ module Pokemon_Logic(
                      (volume_level < 4'd11) ? MEDIUM_SHOOT_RATE :  
                      FAST_SHOOT_RATE; 
     end
-    
-//    always @(clk_shield) begin
-//        for (i = 0; i <= 5; i = i + 1) begin
-//            if(Shield_EN[i] == 1) begin
-//                Shield_Count[i] <= Shield_Count[i] + 1;
-//                if (Shield_Count[i] == 1'b1) begin
-//                    Shield_Count[i] <= 0;
-//                    Shield_EN[i] <= 0;
-//                end
-//            end 
-//        end
-//    end
     
     always @(posedge single_pulse_clk) begin
         if (HP_Charmander == 0) Charmander_Alive <= 0;
@@ -208,39 +194,30 @@ module Pokemon_Logic(
             end
         end
         
-        
+        k = 1; //may need to remove
         //Player 1 Shoots if can_shoot_1 and the switch is on
         if (can_shoot_1 == 1) begin
             if (player1Shoot == 1 && Charmander_Alive == 1) begin
                 if (topYCharmander < 19) begin //changed
-                    for (i = 0; (i <= 2 && k == 1); i = i + 1) begin
+                    for (i = 0; (i <= 3 && k == 1); i = i + 1) begin
                         if (FireBall_EN[i] == 0) begin
                             FireBall_EN[i] <= 1;
-                            k = 0;
-                        end else if (FireBall_EN[9] == 0) begin //added whole else
-                            FireBall_EN[9] <= 1;
                             k = 0;
                         end
                     end
                     k = 1;
                 end else if (topYCharmander < 37) begin //changed
-                    for (i = 3; (i <= 5 && k == 1); i = i + 1) begin
+                    for (i = 4; (i <= 7 && k == 1); i = i + 1) begin
                         if (FireBall_EN[i] == 0) begin
                             FireBall_EN[i] <= 1;
-                            k = 0;
-                        end else if (FireBall_EN[10] == 0) begin //added whole else
-                            FireBall_EN[10] <= 1;
                             k = 0;
                         end
                     end
                     k = 1;                
                 end else begin
-                    for (i = 6; (i <= 8 && k == 1); i = i + 1) begin
+                    for (i = 8; (i <= 11 && k == 1); i = i + 1) begin
                         if (FireBall_EN[i] == 0) begin
                             FireBall_EN[i] <= 1;
-                            k = 0;
-                        end else if (FireBall_EN[11] == 0) begin //added whole else
-                            FireBall_EN[11] <= 1;
                             k = 0;
                         end
                     end
@@ -260,36 +237,27 @@ module Pokemon_Logic(
         if (can_shoot_2 == 1) begin
             if (player2Shoot == 1 && Squirtle_Alive == 1) begin
                 if (topYSquirtle < 19) begin //changed
-                    for (i = 0; (i <= 2 && k == 1); i = i + 1) begin
+                    for (i = 0; (i <= 3 && k == 1); i = i + 1) begin
                         if (WaterBall_EN[i] == 0) begin
                             WaterBall_EN[i] <= 1;
-                            k = 0;
-                        end else if (WaterBall_EN[9] == 0) begin //added whole else
-                            WaterBall_EN[9] <= 1;
                             k = 0;
                         end
                     end
                     k = 1;
                 end else if (topYSquirtle < 37) begin //changed
-                    for (i = 3; (i <= 5 && k == 1); i = i + 1) begin
+                    for (i = 4; (i <= 7 && k == 1); i = i + 1) begin
                         if (WaterBall_EN[i] == 0) begin
                             WaterBall_EN[i] <= 1;
                             k = 0;
-                        end else if (WaterBall_EN[10] == 0) begin //added whole else
-                            WaterBall_EN[10] <= 1;
-                            k = 0;
-                        end
+                        end 
                     end
                     k = 1;                
                 end else if (topYSquirtle < 55) begin //changed
-                    for (i = 6; (i <= 8 && k == 1); i = i + 1) begin
+                    for (i = 8; (i <= 11 && k == 1); i = i + 1) begin
                         if (WaterBall_EN[i] == 0) begin
                             WaterBall_EN[i] <= 1;
                             k = 0;
-                        end else if (WaterBall_EN[11] == 0) begin //added whole else
-                            WaterBall_EN[11] <= 1;
-                            k = 0;
-                        end
+                        end 
                     end
                     k = 1;                
                 end
