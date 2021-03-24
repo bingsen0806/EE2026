@@ -41,7 +41,7 @@ module Top_Student (
     
     //Clocks
     wire clk_6p25M; wire clk_1k; wire clk_20k; wire clk_20; wire clk_400; wire clk_5;
-    wire clk_10; wire clk_16p67M;
+    wire clk_10; wire clk_16p67M; wire clk_50;
     clk1k clk1kHz(basys_clk,clk_1k);
     clk5Hz clk_5Hz(basys_clk,clk_5);
     clk10Hz clk_10Hz(basys_clk,clk_10);
@@ -50,6 +50,8 @@ module Top_Student (
     clk400Hz clk_400Hz(basys_clk,clk_400);
     clk6p25Mhz clk6p25Mhz(basys_clk,clk_6p25M);
     clk16p67MHz clk_16p67Mhz(basys_clk,clk_16p67M);
+    clk50Hz clk_50Hz(basys_clk,clk_50);
+    
     //Buttons
     wire centreButton; wire upButton; wire downButton; wire leftButton; wire rightButton;
     single_pulse btn_C(btnC, clk_1k, centreButton);
@@ -114,6 +116,7 @@ module Top_Student (
         .player1_shoot(sw[15]),
         .player2_shoot(sw[14]),
         .random_number(random_number),
-        .volume_level(volume_level_peak)
+        .volume_level(volume_level_peak),
+        .clk_50Hz(clk_50)
         );   
 endmodule

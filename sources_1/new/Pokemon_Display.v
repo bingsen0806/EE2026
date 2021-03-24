@@ -24,9 +24,11 @@ module Pokemon_Display(
     input[6:0] X, leftXCharmander, leftXSquirtle, //Can remove both leftX later and set to fixed constant
     input [5:0] Y, topYCharmander, topYSquirtle,
     input [6:0] leftX_fb1, leftX_fb2, leftX_fb3, leftX_fb4, leftX_fb5, leftX_fb6, leftX_fb7, leftX_fb8, leftX_fb9,
-    input [8:0] fireball_EN,
+    input [6:0] leftX_fb10, leftX_fb11, leftX_fb12,//add
+    input [11:0] fireball_EN, //changed EN
     input [6:0] leftX_wb1, leftX_wb2, leftX_wb3, leftX_wb4, leftX_wb5, leftX_wb6, leftX_wb7, leftX_wb8, leftX_wb9,
-    input [8:0] waterball_EN,
+    input [6:0] leftX_wb10, leftX_wb11, leftX_wb12, //add
+    input [11:0] waterball_EN, //changed EN size
     output [15:0] oled_data,
     input [31:0] Health_Charmander,
     input [31:0] Health_Squirtle,
@@ -38,8 +40,10 @@ module Pokemon_Display(
     wire [15:0] oled_charmander, oled_squirtle;
     wire [15:0] oled_fb_lane1_1, oled_fb_lane1_2, oled_fb_lane1_3, oled_fb_lane2_1, oled_fb_lane2_2;
     wire [15:0] oled_fb_lane2_3, oled_fb_lane3_1, oled_fb_lane3_2, oled_fb_lane3_3;
+    wire [15:0] oled_fb_lane1_4, oled_fb_lane2_4, oled_fb_lane3_4;
     wire [15:0] oled_wb_lane1_1, oled_wb_lane1_2, oled_wb_lane1_3, oled_wb_lane2_1, oled_wb_lane2_2;
     wire [15:0] oled_wb_lane2_3, oled_wb_lane3_1, oled_wb_lane3_2, oled_wb_lane3_3;
+    wire [15:0] oled_wb_lane1_4, oled_wb_lane2_4, oled_wb_lane3_4;
     wire [15:0] oled_heart1, oled_heart2, oled_health_bar_1, oled_health_bar_2;
     wire [15:0] oled_shield1, oled_shield2, oled_shield3, oled_shield4, oled_shield5, oled_shield6;
     //Can set leftX to fixed constant later
@@ -55,6 +59,9 @@ module Pokemon_Display(
     FireBall lane3_1 (.X(X),.Y(Y),.leftX(leftX_fb7),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane3_1));
     FireBall lane3_2 (.X(X),.Y(Y),.leftX(leftX_fb8),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane3_2));
     FireBall lane3_3 (.X(X),.Y(Y),.leftX(leftX_fb9),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane3_3));
+    FireBall lane1_4 (.X(X),.Y(Y),.leftX(leftX_fb10),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane1_4));
+    FireBall lane2_4 (.X(X),.Y(Y),.leftX(leftX_fb11),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane2_4));
+    FireBall lane3_4 (.X(X),.Y(Y),.leftX(leftX_fb12),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_fb_lane3_4));
     
     WaterBall lane1_1_wb (.X(X),.Y(Y),.leftX(leftX_wb1),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane1_1));
     WaterBall lane1_2_wb (.X(X),.Y(Y),.leftX(leftX_wb2),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane1_2));
@@ -65,6 +72,9 @@ module Pokemon_Display(
     WaterBall lane3_1_wb (.X(X),.Y(Y),.leftX(leftX_wb7),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane3_1));
     WaterBall lane3_2_wb (.X(X),.Y(Y),.leftX(leftX_wb8),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane3_2));
     WaterBall lane3_3_wb (.X(X),.Y(Y),.leftX(leftX_wb9),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane3_3));
+    WaterBall lane1_4_wb (.X(X),.Y(Y),.leftX(leftX_wb10),.topY(6'd6),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane1_4));
+    WaterBall lane2_4_wb (.X(X),.Y(Y),.leftX(leftX_wb11),.topY(6'd24),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane2_4));
+    WaterBall lane3_4_wb (.X(X),.Y(Y),.leftX(leftX_wb12),.topY(6'd42),.BACKGROUND(BACKGROUND),.oled_data(oled_wb_lane3_4));
     
     Heart heart1 (.X(X),.Y(Y),.leftX(7'd1),.topY(6'd59),.BACKGROUND(BACKGROUND),.oled_data(oled_heart1));
     Heart heart2 (.X(X),.Y(Y),.leftX(7'd72),.topY(6'd59),.BACKGROUND(BACKGROUND),.oled_data(oled_heart2));
@@ -96,6 +106,9 @@ module Pokemon_Display(
                        (fireball_EN[6] == 1 && X >= leftX_fb7 && X <= leftX_fb7 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_fb_lane3_1:
                        (fireball_EN[7] == 1 && X >= leftX_fb8 && X <= leftX_fb8 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_fb_lane3_2:
                        (fireball_EN[8] == 1 && X >= leftX_fb9 && X <= leftX_fb9 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_fb_lane3_3:
+                       (fireball_EN[9] == 1 && X >= leftX_fb10 && X <= leftX_fb10 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_fb_lane1_4:
+                       (fireball_EN[10] == 1 && X >= leftX_fb11 && X <= leftX_fb11 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_fb_lane2_4:
+                       (fireball_EN[11] == 1 && X >= leftX_fb12 && X <= leftX_fb12 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_fb_lane3_4:
                        (waterball_EN[0] == 1 && X >= leftX_wb1 && X <= leftX_wb1 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_wb_lane1_1:
                        (waterball_EN[1] == 1 && X >= leftX_wb2 && X <= leftX_wb2 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_wb_lane1_2:
                        (waterball_EN[2] == 1 && X >= leftX_wb3 && X <= leftX_wb3 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_wb_lane1_3:
@@ -105,6 +118,9 @@ module Pokemon_Display(
                        (waterball_EN[6] == 1 && X >= leftX_wb7 && X <= leftX_wb7 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_wb_lane3_1:
                        (waterball_EN[7] == 1 && X >= leftX_wb8 && X <= leftX_wb8 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_wb_lane3_2:
                        (waterball_EN[8] == 1 && X >= leftX_wb9 && X <= leftX_wb9 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_wb_lane3_3:
+                       (waterball_EN[9] == 1 && X >= leftX_wb10 && X <= leftX_wb10 + 7 && Y >= 6'd6 && Y <= 6'd13) ? oled_wb_lane1_4:
+                       (waterball_EN[10] == 1 && X >= leftX_wb11 && X <= leftX_wb11 + 7 && Y >= 6'd24 && Y <= 6'd31) ? oled_wb_lane2_4:
+                       (waterball_EN[11] == 1 && X >= leftX_wb12 && X <= leftX_wb12 + 7 && Y >= 6'd42 && Y <= 6'd49) ? oled_wb_lane3_4:
                        (X >= 7'd1 && X <= 7'd5 && Y >= 6'd59 && Y <= 6'd62) ? oled_heart1:
                        (X >= 7'd72 && X <= 7'd76 && Y >= 6'd59 && Y <= 6'd62) ? oled_heart2:
                        (X >= 7'd7 && X <= 7'd23 && Y >= 6'd59 && Y <= 6'd62) ? oled_health_bar_1:

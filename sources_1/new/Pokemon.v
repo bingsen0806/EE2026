@@ -33,14 +33,17 @@ module Pokemon(
     input player1_shoot,
     input player2_shoot,
     input [7:0] random_number,
-    input [3:0] volume_level
+    input [3:0] volume_level,
+    input clk_50Hz
     );
     
     wire [5:0] topYCharmander; wire [5:0] topYSquirtle;
-    wire [8:0] FireBall_EN; 
-    wire [8:0] WaterBall_EN;
+    wire [11:0] FireBall_EN; //changed size
+    wire [11:0] WaterBall_EN; //changed size
     wire [6:0] leftX_fb1, leftX_fb2, leftX_fb3, leftX_fb4, leftX_fb5, leftX_fb6, leftX_fb7, leftX_fb8, leftX_fb9;
+    wire [6:0] leftX_fb10, leftX_fb11, leftX_fb12; //added
     wire [6:0] leftX_wb1, leftX_wb2, leftX_wb3, leftX_wb4, leftX_wb5, leftX_wb6, leftX_wb7, leftX_wb8, leftX_wb9;
+    wire [6:0] leftX_wb10, leftX_wb11, leftX_wb12; //added
     wire Charmander_Alive, Squirtle_Alive;
     wire [31:0] Health_Charmander, Health_Squirtle;
     wire [5:0] Shield_EN;
@@ -56,7 +59,11 @@ module Pokemon(
         .leftX_fb6(leftX_fb6),
         .leftX_fb7(leftX_fb7),
         .leftX_fb8(leftX_fb8),
-        .leftX_fb9(leftX_fb9),.waterball_EN(WaterBall_EN),
+        .leftX_fb9(leftX_fb9),
+        .leftX_fb10(leftX_fb10), //added 3 lines
+        .leftX_fb11(leftX_fb11),
+        .leftX_fb12(leftX_fb12),
+        .waterball_EN(WaterBall_EN),
         .leftX_wb1(leftX_wb1),
         .leftX_wb2(leftX_wb2),
         .leftX_wb3(leftX_wb3),
@@ -66,6 +73,9 @@ module Pokemon(
         .leftX_wb7(leftX_wb7),
         .leftX_wb8(leftX_wb8),
         .leftX_wb9(leftX_wb9),
+        .leftX_wb10(leftX_wb10), //added 3 lines
+        .leftX_wb11(leftX_wb11),
+        .leftX_wb12(leftX_wb12),
         .Charmander_Alive(Charmander_Alive),
         .Squirtle_Alive(Squirtle_Alive),
         .Health_Charmander(Health_Charmander),
@@ -81,7 +91,8 @@ module Pokemon(
         .player2_down (player2_down),
         .topYCharmander(topYCharmander),
         .topYSquirtle(topYSquirtle),
-        .clk_20Hz(clk_20Hz),
+        .clk_move_speed(clk_50Hz),
+        .clk_shield(clk_20Hz),
         .player1Shoot(player1_shoot),
         .player2Shoot(player2_shoot),
         .FireBall_EN(FireBall_EN),
@@ -94,6 +105,9 @@ module Pokemon(
         .leftX_fb7(leftX_fb7),
         .leftX_fb8(leftX_fb8),
         .leftX_fb9(leftX_fb9),
+        .leftX_fb10(leftX_fb10), //added 3 lines
+        .leftX_fb11(leftX_fb11),
+        .leftX_fb12(leftX_fb12),
         .WaterBall_EN(WaterBall_EN),
         .leftX_wb1(leftX_wb1),
         .leftX_wb2(leftX_wb2),
@@ -104,6 +118,9 @@ module Pokemon(
         .leftX_wb7(leftX_wb7),
         .leftX_wb8(leftX_wb8),
         .leftX_wb9(leftX_wb9),
+        .leftX_wb10(leftX_wb10), //added 3 lines
+        .leftX_wb11(leftX_wb11),
+        .leftX_wb12(leftX_wb12),
         .Charmander_Alive(Charmander_Alive),
         .Squirtle_Alive(Squirtle_Alive),
         .Health_Charmander(Health_Charmander),

@@ -22,21 +22,20 @@
 
 module test(
     input basys_clk,
+    input btnC,
     output reg [15:0] led = 16'b0
     );
+    wire clk_16p67M; wire centreButton; wire clk_1k; wire clk_20;
     
-    reg t = 0;
-    reg w = 1;
-    reg [5:0] s = 25;
-    always @(posedge basys_clk) begin
-        if (t==0) begin
-            led <= 16'b00000_11111_00000_0;
-        end
-        if (w == 1) begin
-            led <= 16'b11111_00000_00000_0;
-        end
-        if (s > 20) begin
-            led <= 16'b00111_11100_00000_0;
-        end
+    clk16p67MHz clk_16p67Mhz(basys_clk,clk_16p67M);
+    clk1k clk1kHz(basys_clk,clk_1k);
+    clk20Hz clk_20Hz(basys_clk,clk_20);
+    
+    wire [7:0] random_number;
+    single_pulse btn_C(btnC, clk_1k, centreButton);
+    Rng_8Bit rng1(.rng_clk(clk_16p67M),.rst(1'b0),.random_number(random_number));
+    
+    always @(posedge clk_20) begin
+        led <= random_number;
     end
 endmodule
