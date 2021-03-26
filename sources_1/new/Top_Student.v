@@ -107,7 +107,8 @@ module Top_Student (
     
     wire [3:0] state; wire pokemon_ended; 
     wire [15:0] oled_menu; 
-
+    
+    wire [3:0] an_pokemon; wire [7:0] seg_pokemon; //added
     finalMux finalMux(
         .clk(basys_clk),
         .state(state),
@@ -116,9 +117,9 @@ module Top_Student (
         .oled_pokemon(oled_pokemon), 
         .oled_pokemon_over(oled_pokemon_over),
         .an_basic(an_basic), 
-        .an_pokemon(4'b1111),
+        .an_pokemon(an_pokemon), //unconfirmed working
         .seg_basic(seg_basic), 
-        .seg_pokemon (8'b11111_111),
+        .seg_pokemon (seg_pokemon),//unconfirmed working
         .oled_data(oled_data),
         .an(an),
         .seg(seg)
@@ -176,7 +177,10 @@ module Top_Student (
         .SWAP_LANE_SWITCH(sw[3]),
         .ShowCharmander(ShowCharmander),
         .state(state),
-        .ended(pokemon_ended)
+        .ended(pokemon_ended),
+        .segment_clk(clk_400),
+        .an_pokemon(an_pokemon),
+        .seg_pokemon(seg_pokemon)
         );   
         
 endmodule

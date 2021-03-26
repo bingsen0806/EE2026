@@ -39,7 +39,10 @@ module Pokemon(
     input SWAP_LANE_SWITCH,
     output reg ShowCharmander = 0,
     input [3:0] state, //added. use this to know when to reset game logic (i.e. when game over screen is shown)
-    output ended
+    output ended,
+    input segment_clk, //400Hz
+    output [3:0] an_pokemon,
+    output [7:0] seg_pokemon
     );
     
     wire [5:0] topYCharmander; wire [5:0] topYSquirtle;
@@ -147,5 +150,14 @@ module Pokemon(
         .ShowCharmander(fake_ShowCharmander),
         .state(state),
         .ended(ended)
+    );
+    
+    Pokemon_Segment pokemon_segment(
+        .display_clk(segment_clk), //400Hz
+        .update_clk(clk_20Hz),  //Try 50Hz
+        .Health_Charmander(Health_Charmander),
+        .Health_Squirtle(Health_Squirtle),
+        .an(an_pokemon),
+        .seg(seg_pokemon)
     );
 endmodule
