@@ -35,7 +35,11 @@ module Pokemon(
     input [7:0] random_number,
     input [3:0] volume_level,
     input clk_50Hz,
-    input [11:0] raw_mic_data
+    input [11:0] raw_mic_data,
+    input SWAP_LANE_SWITCH,
+    output reg ShowCharmander = 0,
+    input [3:0] state, //added. use this to know when to reset game logic (i.e. when game over screen is shown)
+    output ended
     );
     
     wire [5:0] topYCharmander; wire [5:0] topYSquirtle;
@@ -48,6 +52,13 @@ module Pokemon(
     wire Charmander_Alive, Squirtle_Alive;
     wire [31:0] Health_Charmander, Health_Squirtle;
     wire [5:0] Shield_EN;
+    wire fake_ShowCharmander;
+    
+    always @(posedge single_pulse_clk) begin
+        if (state == 4'b0010) begin //the pokemon game is ongoing
+            ShowCharmander <= fake_ShowCharmander;
+        end
+    end
     
     Pokemon_Display pokemon_display(
         .X(X), .leftXCharmander(7'd1), .leftXSquirtle(7'd74),
@@ -84,6 +95,7 @@ module Pokemon(
         .Health_Squirtle(Health_Squirtle),
         .shield_EN(Shield_EN)
         );
+    
     
     Pokemon_Logic logic(    
         .single_pulse_clk (single_pulse_clk),
@@ -130,6 +142,10 @@ module Pokemon(
         .Shield_EN(Shield_EN),
         .random_number(random_number),
         .volume_level(volume_level),
-        .raw_mic_data(raw_mic_data)
+        .raw_mic_data(raw_mic_data),
+        .SWAP_LANE_EN(SWAP_LANE_SWITCH),
+        .ShowCharmander(fake_ShowCharmander),
+        .state(state),
+        .ended(ended)
     );
 endmodule
