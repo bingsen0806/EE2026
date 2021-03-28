@@ -139,7 +139,7 @@ module Top_Student (
         .nextStateMenu(nextStateMenu), //00 goes to volume bar, 01 goes to pokemon, 10 goes to fruit ninja, 11 goes to potion mixing
         .pokemon_ended(pokemon_ended),
         .fruit_ninja_ended(1'b0),
-        .potion_mixing_ended(1'b0),
+        .potion_mixing_ended(potion_ended),
         .state(state),
         .done_initialize(done_initialize)
     );

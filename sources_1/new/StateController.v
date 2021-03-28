@@ -60,8 +60,8 @@ module StateController(
             end
         end
         4'b0101: begin //potion mixing
-            if (btnC == 1) begin //change back to potion_mixing_ended later
-                state <= 4'b0101; //go back to menu
+            if (potion_mixing_ended == 1) begin //change back to potion_mixing_ended later
+                state <= 4'b0000; //go back to menu
             end
         end
         4'b0110: begin //potion mixing initialization

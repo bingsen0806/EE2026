@@ -34,9 +34,13 @@ module Potion_Logic(
     output [2:0] colour1_5, colour2_5, colour3_5, colour4_5,
     output [2:0] colour1_6, colour2_6, colour3_6, colour4_6,
     output [2:0] colour1_7, colour2_7, colour3_7, colour4_7,
-    output reg [7:0] selected = 8'b00000001
+    output [7:0] selected,
+    output [7:0] confirmed,
+    output [6:0] TIMELEFT
     );
+    parameter [24:0] TIME_LIMIT = 25'd60000;
     
+    reg [24:0] time_left = TIME_LIMIT;
     integer i;  //variables used in for loop
     integer j; 
     reg break = 0; //variable used to break for loop
@@ -50,6 +54,9 @@ module Potion_Logic(
     reg [2:0] topTube [6:0];
     reg [2:0] colours[6:0][3:0];    //colours are 1,2,3,4, and 0 means blank
     reg [6:0] countPoured = 7'd0; //will be increased when valid pour step is made
+    reg [2:0] selecting = 3'd0;
+    reg [2:0] confirm1 = 3'd7; reg [2:0] confirm2 = 3'd7; //8 means no bottle confirmed, otherwise this denots the bottles that are confirmed selected
+    reg [2:0] num_completed = 3'd0;
     always @(posedge single_pulse_clk) begin
         if (state == 4'b0110 && done_initialize == 0) begin
             if (initialize_values == 0) begin
@@ -361,11 +368,94 @@ module Potion_Logic(
                 end
                 
             end
-        end else if (state == 4'b0101) begin
-                done_initialize <= 0;            
+        end 
+        else if (state == 4'b0101) begin
+            done_initialize <= 0;
+            initialize_values <= 0; 
+            
+            //Reduce time
+            time_left <= time_left - 1;
+            if (time_left == 1) begin
+                time_left <= TIME_LIMIT;
+                potion_ended <= 1;
+            end
+            //Process selected and confirmed through button pressing
+            if(btnL == 1 && selecting != 0 && selecting != 4)  begin
+                selecting <= selecting - 1;
+            end
+            if (btnR == 1 && selecting != 3 && selecting != 7) begin
+                selecting <= selecting + 1;
+            end 
+            if (btnU == 1 && selecting >= 4) begin
+                selecting <= selecting - 4;
+            end
+            if (btnD == 1 && selecting < 4) begin
+                selecting <= selecting + 4;
+            end        
+            if (btnC == 1) begin
+                if(selecting == confirm1) begin
+                    if (confirm1 == 3'd7) potion_ended <= 1;
+                    else confirm1 <= 3'd7;            
+                end else if (selecting != confirm2) begin //just add condition in case, by right confirm2 is always 3'd7
+                    if (confirm1 != 3'd7) begin //already have another bottle confirm selected  
+                    
+                        //code for pouring from confirm1 into confirm2
+                        //repeat 4 times, cannot use for loop because will have synthesis error unles use case statement, which is longer
+                        if((colours[confirm1][topTube[confirm1]-1] == colours[selecting][topTube[selecting]-1] || topTube[selecting] == 0) && topTube[selecting] < 4 && topTube[confirm1] > 0) begin
+                            colours[selecting][topTube[selecting]] = colours[confirm1][topTube[confirm1]-1];
+                            colours[confirm1][topTube[confirm1]-1] = 3'b000;
+                            topTube[confirm1] = topTube[confirm1] - 1;
+                            topTube[selecting] = topTube[selecting] + 1;
+                        end
+                        if((colours[confirm1][topTube[confirm1]-1] == colours[selecting][topTube[selecting]-1] || topTube[selecting] == 0) && topTube[selecting] < 4 && topTube[confirm1] > 0) begin
+                            colours[selecting][topTube[selecting]] = colours[confirm1][topTube[confirm1]-1];
+                            colours[confirm1][topTube[confirm1]-1] = 3'b000;
+                            topTube[confirm1] = topTube[confirm1] - 1;
+                            topTube[selecting] = topTube[selecting] + 1;
+                        end
+                        if((colours[confirm1][topTube[confirm1]-1] == colours[selecting][topTube[selecting]-1] || topTube[selecting] == 0) && topTube[selecting] < 4 && topTube[confirm1] > 0) begin
+                            colours[selecting][topTube[selecting]] = colours[confirm1][topTube[confirm1]-1];
+                            colours[confirm1][topTube[confirm1]-1] = 3'b000;
+                            topTube[confirm1] = topTube[confirm1] - 1;
+                            topTube[selecting] = topTube[selecting] + 1;
+                        end
+                        if((colours[confirm1][topTube[confirm1]-1] == colours[selecting][topTube[selecting]-1] || topTube[selecting] == 0) && topTube[selecting] < 4 && topTube[confirm1] > 0) begin
+                            colours[selecting][topTube[selecting]] = colours[confirm1][topTube[confirm1]-1];
+                            colours[confirm1][topTube[confirm1]-1] = 3'b000;
+                            topTube[confirm1] = topTube[confirm1] - 1;
+                            topTube[selecting] = topTube[selecting] + 1;
+                        end    
+                        
+                        //code winning condition
+                        //If want to add animation, rmb that colours may not reflect true colour during animation
+                        num_completed = 0;
+                        for(i = 0; i < 7; i = i + 1) begin
+                            if(colours[i][0]==colours[i][1] && colours[i][2]==colours[i][3] && colours[i][1]==colours[i][2]) begin
+                                num_completed = num_completed + 1;
+                            end
+                        end 
+                        if (num_completed == 7) begin
+                            potion_ended <= 1;
+                        end    
+                        confirm1 <= 3'd7; //after pouring, all bottles are not confirmed selected anymore
+                                          // if invalid selection is made, all bottles are not confirmed selected also                   
+                    end else begin      //no bottle confirm selected yet, so confirm select this one
+                        confirm1 <= selecting;
+                    end 
+                end
+            end
+        end else if (state == 4'b0000) begin //back to menu alrdy
+            potion_ended <= 0;
+            time_left = TIME_LIMIT;
+            selecting = 3'd0;
+            confirm1 = 3'd7; confirm2 = 3'd7;
         end
     end
     
+    assign TIMELEFT = time_left * 100 /TIME_LIMIT;
+    assign confirmed = (confirm1 == 3'd7) ? 8'd0:
+                       (8'b00000_001 << confirm1);
+    assign selected = (8'b00000_001 << selecting);
     assign colour1_1 = colours[0][0]; assign colour2_1 = colours[0][1]; assign colour3_1 = colours[0][2]; assign colour4_1 = colours[0][3];
     assign colour1_2 = colours[1][0]; assign colour2_2 = colours[1][1]; assign colour3_2 = colours[1][2]; assign colour4_2 = colours[1][3];
     assign colour1_3 = colours[2][0]; assign colour2_3 = colours[2][1]; assign colour3_3 = colours[2][2]; assign colour4_3 = colours[2][3];

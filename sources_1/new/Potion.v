@@ -32,7 +32,7 @@ module Potion(
     input [11:0] raw_mic_data //for randomness
     );
     
-    wire [7:0] selected;
+    wire [7:0] selected; wire[7:0] confirmed; wire[6:0] TIMELEFT;
     wire [2:0] colour1_1,colour2_1,colour3_1,colour4_1;
     wire [2:0] colour1_2,colour2_2,colour3_2,colour4_2;
     wire [2:0] colour1_3,colour2_3,colour3_3,colour4_3;
@@ -52,7 +52,9 @@ module Potion(
         .colour1_5(colour1_5), .colour2_5(colour2_5), .colour3_5(colour3_5), .colour4_5(colour4_5),
         .colour1_6(colour1_6), .colour2_6(colour2_6), .colour3_6(colour3_6), .colour4_6(colour4_6),
         .colour1_7(colour1_7), .colour2_7(colour2_7), .colour3_7(colour3_7), .colour4_7(colour4_7),
-        .oled_data(oled_data)
+        .oled_data(oled_data),
+        .confirmed(confirmed),
+        .TIMELEFT(TIMELEFT)
     );
     
     Potion_Logic potion_logic(
@@ -68,6 +70,8 @@ module Potion(
         .colour1_7(colour1_7), .colour2_7(colour2_7), .colour3_7(colour3_7), .colour4_7(colour4_7), 
         .selected(selected),
         .done_initialize(done_initialize),
-        .potion_ended(potion_ended) 
+        .potion_ended(potion_ended),
+        .confirmed(confirmed),
+        .TIMELEFT(TIMELEFT)
     );
 endmodule

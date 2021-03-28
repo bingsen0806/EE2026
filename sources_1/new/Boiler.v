@@ -28,6 +28,7 @@ module Boiler(
     input [15:0] BACKGROUND,
     output reg [15:0] oled_data = 16'b0,
     input selected,
+    input confirmed,
     input [2:0] colour1,
     input [2:0] colour2,
     input [2:0] colour3,
@@ -45,6 +46,7 @@ module Boiler(
     parameter [15:0] RED = 16'b11111_000000_00000;
     parameter [15:0] BROWN = 16'b01100_000111_00000;
     parameter [15:0] BLACK = 16'd0;
+    parameter [15:0] GREEN = 16'b00000_011110_00000;
     
     reg [15:0] FIRST_COLOUR = WHITE;
     reg [15:0] SECOND_COLOUR = WHITE;
@@ -52,8 +54,9 @@ module Boiler(
     reg [15:0] FOURTH_COLOUR = WHITE;
     reg [15:0] CAP_COLOUR = WHITE;
     
-    always @(selected) begin
-        CAP_COLOUR = selected ? RED : BROWN;
+    always @(selected or confirmed) begin
+        CAP_COLOUR = confirmed ? GREEN:
+                     selected ? RED : BROWN;
     end
     
     always @(colour1) begin
