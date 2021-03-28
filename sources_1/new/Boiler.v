@@ -131,7 +131,7 @@ module Boiler(
             if (X == leftX + 1 || X == leftX + 16) oled_data = BLACK;
             else if (X >= leftX + 2 && X <= leftX + 15)oled_data = THIRD_COLOUR;      
             else oled_data = BACKGROUND;
-        end else if (Y == topY + 21 && Y <= topY + 24) begin
+        end else if (Y >= topY + 21 && Y <= topY + 24) begin
             if (X == leftX || X == leftX +17) oled_data = BLACK;
             else oled_data = SECOND_COLOUR; 
         end else if (Y ==topY + 25 || Y == topY + 26) begin
@@ -146,7 +146,7 @@ module Boiler(
             if (X == leftX + 3 || X == leftX + 4 || X == leftX + 14 || X == leftX + 13) oled_data = BLACK;
             else if (X >= leftX + 5 && X <= leftX + 12)oled_data = FIRST_COLOUR;  
             else oled_data = BACKGROUND;
-        end else if (Y == topY + 28) begin
+        end else if (Y == topY + 29) begin
             if (X >= leftX + 5 && X <= leftX + 12) oled_data = BLACK;
             else oled_data = BACKGROUND;
         end

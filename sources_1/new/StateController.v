@@ -25,7 +25,8 @@ module StateController(
     input clk, //1kHz, same as single pulse one
     input [1:0] nextStateMenu, //00 goes to volume bar, 01 goes to pokemon, 10 goes to fruit ninja, 11 goes to potion mixing
     input pokemon_ended, fruit_ninja_ended, potion_mixing_ended,
-    output reg [3:0] state = 4'b0000
+    output reg [3:0] state = 4'b0000,
+    input done_initialize
     );
     
     always @(posedge clk) begin
@@ -34,7 +35,7 @@ module StateController(
             if(btnC == 1) begin
                 if(nextStateMenu == 2'b00) state <= 4'b0001;
                 else if (nextStateMenu == 2'b01) state <= 4'b0010;
-                else if (nextStateMenu == 2'b10) state <= 4'b0010; //temporary only, remember change back to 0011
+                else if (nextStateMenu == 2'b10) state <= 4'b0110; //temporary only, remember change back to 0011
                 else if (nextStateMenu == 2'b11) state <= 4'b0010; //remember to change back to 0100
             end
         end
@@ -59,8 +60,13 @@ module StateController(
             end
         end
         4'b0101: begin //potion mixing
-            if (potion_mixing_ended == 1) begin
-                state <= 4'b0000; //go back to menu
+            if (btnC == 1) begin //change back to potion_mixing_ended later
+                state <= 4'b0101; //go back to menu
+            end
+        end
+        4'b0110: begin //potion mixing initialization
+            if (done_initialize == 1) begin
+                state <= 4'b0101;
             end
         end
         endcase

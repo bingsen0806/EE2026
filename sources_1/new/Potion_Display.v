@@ -50,10 +50,10 @@ module Potion_Display(
                        (X >= 7'd26 && X <= 7'd43 && Y >= 6'd1 && Y <= 6'd30) ? oled_b2:
                        (X >= 7'd48 && X <= 7'd65 && Y >= 6'd1 && Y <= 6'd30) ? oled_b3:
                        (X >= 7'd70 && X <= 7'd87 && Y >= 6'd1 && Y <= 6'd30) ? oled_b4:
-                       (X >= 7'd4 && X <= 7'd21 && Y >= 6'd33 && Y <= 6'd63) ? oled_b5:
-                       (X >= 7'd26 && X <= 7'd43 && Y >= 6'd33 && Y <= 6'd63) ? oled_b6:
-                       (X >= 7'd48 && X <= 7'd65 && Y >= 6'd33 && Y <= 6'd63) ? oled_b7:
-                       (X >= 7'd70 && X <= 7'd87 && Y >= 6'd33 && Y <= 6'd63) ? oled_conical:
+                       (X >= 7'd4 && X <= 7'd21 && Y >= 6'd33 && Y <= 6'd62) ? oled_b5:
+                       (X >= 7'd26 && X <= 7'd43 && Y >= 6'd33 && Y <= 6'd62) ? oled_b6:
+                       (X >= 7'd48 && X <= 7'd65 && Y >= 6'd33 && Y <= 6'd62) ? oled_b7:
+                       (X >= 7'd70 && X <= 7'd87 && Y >= 6'd33 && Y <= 6'd62) ? oled_conical:
                        BACKGROUND;
                        
 endmodule

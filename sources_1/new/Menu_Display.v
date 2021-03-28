@@ -31,7 +31,7 @@ module Menu_Display(
     output reg [1:0] nextStateMenu = 2'b00
     );
     
-    always @(single_pulse_clk) begin
+    always @(posedge single_pulse_clk) begin
         if (state == 4'b0000) begin
             if (btnU == 1 && nextStateMenu > 0) begin
                 nextStateMenu <= nextStateMenu - 1;
