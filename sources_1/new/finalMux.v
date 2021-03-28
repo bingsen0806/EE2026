@@ -28,7 +28,8 @@ module finalMux(
     input [7:0] seg_basic, seg_pokemon,
     output reg [15:0] oled_data,
     output reg [3:0] an,
-    output reg [7:0] seg
+    output reg [7:0] seg,
+    input [15:0] oled_loading
     );
     
     always @ (posedge clk) begin
@@ -64,7 +65,7 @@ module finalMux(
             seg <= 8'b11111_111;
         end
         4'b0110: begin
-            oled_data <= 16'b11111_111111_00000;
+            oled_data <= oled_loading;
             an <= 4'b1111;
             seg <= 8'b11111_111;        
         end

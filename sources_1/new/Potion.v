@@ -29,7 +29,9 @@ module Potion(
     output [15:0] oled_data,
     output done_initialize,
     output potion_ended,
-    input [11:0] raw_mic_data //for randomness
+    input [11:0] raw_mic_data, //for randomness
+    input loading_clk,
+    output [15:0] oled_loading
     );
     
     wire [7:0] selected; wire[7:0] confirmed; wire[6:0] TIMELEFT;
@@ -73,5 +75,12 @@ module Potion(
         .potion_ended(potion_ended),
         .confirmed(confirmed),
         .TIMELEFT(TIMELEFT)
+    );
+    
+    Loading loading(
+        .X(X),
+        .Y(Y),
+        .clk(loading_clk),
+        .oled_data(oled_loading)
     );
 endmodule

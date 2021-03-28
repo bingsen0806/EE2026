@@ -111,6 +111,7 @@ module Top_Student (
     wire [3:0] an_pokemon; wire [7:0] seg_pokemon; //added
     
     wire done_initialize; wire [15:0] oled_potion_mixing; wire potion_ended;
+    wire[15:0] oled_loading;
     finalMux finalMux(
         .clk(basys_clk),
         .state(state),
@@ -125,7 +126,8 @@ module Top_Student (
         .oled_data(oled_data),
         .an(an),
         .seg(seg),
-        .oled_potion_mixing(oled_potion_mixing)
+        .oled_potion_mixing(oled_potion_mixing),
+        .oled_loading(oled_loading)
     );
     
     wire [1:0] nextStateMenu;
@@ -186,6 +188,7 @@ module Top_Student (
         .an_pokemon(an_pokemon),
         .seg_pokemon(seg_pokemon)
         );   
+    
     Potion potion (
         .X(X),
         .Y(Y),
@@ -195,6 +198,8 @@ module Top_Student (
         .oled_data(oled_potion_mixing),
         .done_initialize(done_initialize),
         .potion_ended(potion_ended),
-        .raw_mic_data(mic_in) //for randomness
+        .raw_mic_data(mic_in), //for randomness
+        .loading_clk(clk_5),
+        .oled_loading(oled_loading)
     );  
 endmodule

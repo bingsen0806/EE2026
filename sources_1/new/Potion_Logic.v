@@ -45,7 +45,7 @@ module Potion_Logic(
     integer j; 
     reg break = 0; //variable used to break for loop
     reg foundNextTubePour = 0;
-    reg [9:0] countInitialize = 10'd0;
+    reg [12:0] countInitialize = 13'd0;
     reg stillCanPour = 1;
     reg shiftTimes = 0;
     reg initialize_values = 0; //set to 1 after initializing values before generating puzzle
@@ -361,7 +361,7 @@ module Potion_Logic(
                 end else begin
                    // mix back everything into the first 4 tubes
                     countInitialize <= countInitialize + 1;
-                    if (countInitialize == 999) begin
+                    if (countInitialize == 4999) begin
                         countInitialize <= 0;
                         done_initialize <= 1;
                     end
