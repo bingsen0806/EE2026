@@ -95,7 +95,7 @@ module Top_Student (
     wire [7:0] seg_basic;
     Sound micData(.clk_20(clk_20),.clk_20k(clk_20k),.mic_in(mic_in),.volume_level_raw(volume_level_raw),.raw_mic_in(raw_mic_in),.volume_level_peak(volume_level_peak));
     LED_Display_Mic led_display(.led_clk(clk_6p25M),.sw(sw),.raw_volume(volume_level_raw),.peak_volume(volume_level_peak),.led(led),.freq_level(freq_level));
-    Seven_Segment_Sound soundDisplay(.display_clk(clk_400), .update_volume_clk(clk_10),.an(an_basic),.seg(seg_basic),.volume_raw(raw_mic_in),.volume_level_peak(volume_level_peak),.sw(sw),.volume_level_raw(volume_level_raw),.freq(freq));
+    Seven_Segment_Sound soundDisplay(.display_clk(clk_400), .update_volume_clk(clk_10),.an(an_basic),.seg(seg_basic),.volume_raw(raw_mic_in),.volume_level_peak(volume_level_peak),.sw00(sw[0]),.sw11(sw[1]),.volume_level_raw(volume_level_raw),.freq(freq));
     Frequency frequency(.clk_20kHz(clk_20k), .mic_in(mic_in), .freq_level(freq_level), .freq(freq));
     
     //Random Number Generator
@@ -110,13 +110,13 @@ module Top_Student (
     
     wire [3:0] an_pokemon; wire [7:0] seg_pokemon; //added
     
-    wire done_initialize; wire [15:0] oled_potion_mixing; wire potion_ended;
-    wire[15:0] oled_loading;
+    wire done_initialize; wire [15:0] oled_potion_mixing; wire potion_ended; wire fruit_ended;
+    wire[15:0] oled_loading; wire [15:0] oled_basic; wire[15:0] oled_fruit;
     finalMux finalMux(
         .clk(basys_clk),
         .state(state),
         .oled_menu(oled_menu), 
-        .oled_basic(16'h618b), 
+        .oled_basic(oled_basic), 
         .oled_pokemon(oled_pokemon), 
         .oled_pokemon_over(oled_pokemon_over),
         .an_basic(an_basic), 
@@ -127,7 +127,8 @@ module Top_Student (
         .an(an),
         .seg(seg),
         .oled_potion_mixing(oled_potion_mixing),
-        .oled_loading(oled_loading)
+        .oled_loading(oled_loading),
+        .oled_fruit(oled_fruit)
     );
     
     wire [1:0] nextStateMenu;
@@ -140,7 +141,7 @@ module Top_Student (
         .clk(clk_1k), //1kHz, same as single pulse one
         .nextStateMenu(nextStateMenu), //00 goes to volume bar, 01 goes to pokemon, 10 goes to fruit ninja, 11 goes to potion mixing
         .pokemon_ended(pokemon_ended),
-        .fruit_ninja_ended(1'b0),
+        .fruit_ninja_ended(fruit_ended), ////////////////changed
         .potion_mixing_ended(potion_ended),
         .state(state),
         .done_initialize(done_initialize)
@@ -202,4 +203,30 @@ module Top_Student (
         .loading_clk(clk_5),
         .oled_loading(oled_loading)
     );  
+    
+    volume_bar Volume_bar(
+        .sw0(sw[5]), //changed to 3 bit from 4 bit 
+        .sw1(sw[6]),
+        .sw2(sw[7]),
+        .mic_data(volume_level_peak), 
+        .X(X), 
+        .Y(Y), 
+        .colour(oled_basic),
+        .btnL(leftButton),
+        .btnR(centreButton),
+        .single_pulse_clk(clk_1k),
+        .state(state)
+    );
+    
+    Fruit_Ninja_Logic fruit_ninja(
+        .btnC(centreButton),
+        .state(state),
+        .fruit_ended(fruit_ended),
+        .single_pulse_clk(clk_1k),
+        .frequency(freq),         
+        .raw_mic_data(mic_in),
+        .X(X),
+        .Y(Y),
+        .oled_fruit(oled_fruit)
+    );
 endmodule

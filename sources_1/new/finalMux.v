@@ -23,7 +23,7 @@
 module finalMux(
     input clk,
     input [3:0] state,
-    input [15:0] oled_menu, oled_basic, oled_pokemon, oled_pokemon_over, oled_potion_mixing,
+    input [15:0] oled_menu, oled_basic, oled_pokemon, oled_pokemon_over, oled_potion_mixing, oled_fruit,
     input [3:0] an_basic, an_pokemon,
     input [7:0] seg_basic, seg_pokemon,
     output reg [15:0] oled_data,
@@ -55,7 +55,7 @@ module finalMux(
             seg <= 8'b11111_111;
         end
         4'b0100: begin
-            oled_data <= 16'b00000_000000_11111;
+            oled_data <= oled_fruit;
             an <= 4'b1111;
             seg <= 8'b11111_111;
         end

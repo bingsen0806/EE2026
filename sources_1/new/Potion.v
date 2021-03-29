@@ -81,6 +81,7 @@ module Potion(
         .X(X),
         .Y(Y),
         .clk(loading_clk),
-        .oled_data(oled_loading)
+        .oled_data(oled_loading),
+        .state(state)
     );
 endmodule

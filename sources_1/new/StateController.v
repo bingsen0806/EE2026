@@ -36,7 +36,7 @@ module StateController(
                 if(nextStateMenu == 2'b00) state <= 4'b0001;
                 else if (nextStateMenu == 2'b01) state <= 4'b0010;
                 else if (nextStateMenu == 2'b10) state <= 4'b0110; //temporary only, remember change back to 0011
-                else if (nextStateMenu == 2'b11) state <= 4'b0010; //remember to change back to 0100
+                else if (nextStateMenu == 2'b11) state <= 4'b0100; //remember to change back to 0100
             end
         end
         4'b0001: begin //volume bar 

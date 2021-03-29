@@ -28,7 +28,7 @@ module Seven_Segment_Sound(
     input [11:0] volume_raw,
     input [3:0] volume_level_peak,
     input [3:0] volume_level_raw,
-    input [1:0] sw,
+    input sw00, sw11,
     input [11:0] freq
     );
     reg [1:0] count = 2'b00;
@@ -52,12 +52,12 @@ module Seven_Segment_Sound(
     end
 
     always @(posedge update_volume_clk) begin
-        if (sw[1] == 1) begin
+        if (sw11 == 1) begin
             segment[0] <= segment_const[freq/1000];
             segment[1] <= segment_const[(freq%1000)/100];
             segment[2] <= segment_const[(freq%100)/10];
             segment[3] <= segment_const[freq%10];           
-        end else if (sw[0] == 0) begin
+        end else if (sw00 == 0) begin
             segment[0] <= segment_const[13];
             //Below sets the letter L, M or H
             if(volume_level_peak > 10) begin

@@ -35,12 +35,13 @@ module Loading(
     reg [5:0] length = 6'd0; //legnth of the green loading
     
     always @(posedge clk) begin
-        load_EN <= load_EN + 1;
-        if (load_EN == 9) begin
-            load_EN <= 0;   
-        end
-        if (length < 60 && load_EN % 5 == 4) length <= length + 12;
-        if(state == 4'b0101) begin
+        if (state == 4'b0110) begin
+            load_EN <= load_EN + 1;
+            if (load_EN == 9) begin
+                load_EN <= 0;   
+            end
+            if (length < 60 && load_EN % 5 == 4) length <= length + 12;
+        end else begin
             load_EN <= 0;
             length <= 6'd0;
         end
@@ -48,7 +49,7 @@ module Loading(
     
     always @ (X or Y) begin
         if (((Y==28||Y==39)&&(X>=14&&X<=75)) || ((X==13 || X==76) &&(Y>=29 && Y<=38))) oled_data = BLACK; //the black bars
-        else if(Y >= 30 && Y <= 37 && X >=15 && X <= 15 + length) oled_data = GREEN; //the green bar
+        else if(Y >= 30 && Y <= 37 && X >=15 && X < 15 + length) oled_data = GREEN; //the green bar //changed to <15+length
         else if(load_EN>=0 && ((X>=13&&X<=14&&Y>=15&&Y<=23) || (X>=15&&X<=18&&Y>=22&&Y<=23))) oled_data = BLACK; //L
         else if (load_EN >=1 && ((X==21||X==22|X==25|X==26)&&Y>=15&&Y<=23) || ((Y==15||Y==23)&&X>=23&&X<=24)) oled_data = BLACK; //O
         else if (load_EN >=2 && (((X==29||X==30||X==33||X==34)&&Y>=15&&Y<=23) || ((Y==15||Y==16||Y==19)&&(X==31||X==32)))) oled_data = BLACK;//A
