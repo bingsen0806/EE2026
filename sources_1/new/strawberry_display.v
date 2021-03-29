@@ -37,7 +37,7 @@ module strawberry_display(
     always @ (X or Y)
     begin
     
-        if (X == leftX_strawberry)
+        if ((X == leftX_strawberry) || (X == (leftX_strawberry + 1)))
             begin
             if ((Y >= (topY_strawberry + 26)) && (Y <= (topY_strawberry + 34)))
                 strawberry <= BLACK;
@@ -45,7 +45,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
 
-        else if (X == (leftX_strawberry + 1))
+        else if ((X == (leftX_strawberry + 2)) || (X == (leftX_strawberry + 3)))
             begin
             if ((Y >= (topY_strawberry + 30)) && (Y <= (topY_strawberry + 31)))
                 strawberry <= YELLOW;
@@ -57,7 +57,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
 
-        else if (X == (leftX_strawberry + 2))
+        else if ((X == (leftX_strawberry + 4)) || (X == (leftX_strawberry + 5)))
             begin
             if (((Y >= (topY_strawberry + 23)) && (Y <= (topY_strawberry + 24))) || ((Y >= (topY_strawberry + 35)) && (Y <= (topY_strawberry + 36))))
                 strawberry <= YELLOW;
@@ -69,7 +69,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
 
-        else if (X == (leftX_strawberry + 3))
+        else if ((X == (leftX_strawberry + 6)) || (X == (leftX_strawberry + 7)))
             begin
             if ((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 41)))
                 strawberry <= PINK;
@@ -79,7 +79,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
 
-        else if (X == (leftX_strawberry + 4))
+        else if ((X == (leftX_strawberry + 8)) || (X == (leftX_strawberry + 9)))
             begin
             if (((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 18))) || ((Y >= (topY_strawberry + 32)) && (Y <= (topY_strawberry + 33))) || ((Y >= (topY_strawberry + 41)) && (Y <= (topY_strawberry + 42))))
                 strawberry <= YELLOW;
@@ -91,7 +91,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
 
-        else if (X == (leftX_strawberry + 5))
+        else if ((X == (leftX_strawberry + 10)) || (X == (leftX_strawberry + 11)))
             begin
             if ((Y >= (topY_strawberry + 26)) && (Y <= (topY_strawberry + 27)))
                 strawberry <= YELLOW;
@@ -107,7 +107,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
 
-        else if (X == (leftX_strawberry + 6))
+        else if ((X == (leftX_strawberry + 12)) || (X == (leftX_strawberry + 13)))
             begin
             if (((Y >= (topY_strawberry + 14)) && (Y <= (topY_strawberry + 15))) || ((Y >= (topY_strawberry + 43)) && (Y <= (topY_strawberry + 44))))
                 strawberry <= YELLOW;
@@ -121,7 +121,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
 
-        else if (X == (leftX_strawberry + 7))
+        else if ((X == (leftX_strawberry + 14)) || (X == (leftX_strawberry + 15)))
             begin
             if (((Y >= (topY_strawberry + 20)) && (Y <= (topY_strawberry + 21))) || ((Y >= (topY_strawberry + 32)) && (Y <= (topY_strawberry + 33))) || ((Y >= (topY_strawberry + 38)) && (Y <= (topY_strawberry + 39))) || ((Y >= (topY_strawberry + 49)) && (Y <= (topY_strawberry + 50))))
                 strawberry <= YELLOW;
@@ -135,7 +135,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
 
-        else if (X == (leftX_strawberry + 8))
+        else if ((X == (leftX_strawberry + 16)) || (X == (leftX_strawberry + 17)))
             begin
             if ((Y >= (topY_strawberry + 10)) && (Y <= (topY_strawberry + 11)))
                 strawberry <= GREEN;
@@ -147,7 +147,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
 
-        else if (X == (leftX_strawberry + 9))
+        else if ((X == (leftX_strawberry + 18)) || (X == (leftX_strawberry + 19)))
             begin
             if (((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 26))) || ((Y >= (topY_strawberry + 44)) && (Y <= (topY_strawberry + 45))))
                 strawberry <= YELLOW;
@@ -161,7 +161,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
 
-        else if (X == (leftX_strawberry + 10))
+        else if ((X == (leftX_strawberry + 20)) || (X == (leftX_strawberry + 21)))
             begin
             if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 17)))
                 strawberry <= GREEN;
@@ -173,7 +173,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
 
-        else if (X == (leftX_strawberry + 11))
+        else if ((X == (leftX_strawberry + 22)) || (X == (leftX_strawberry + 23)))
             begin
             if (((Y >= (topY_strawberry + 29)) && (Y <= (topY_strawberry + 30))) || ((Y >= (topY_strawberry + 35)) && (Y <= (topY_strawberry + 36))) || ((Y >= (topY_strawberry + 51)) && (Y <= (topY_strawberry + 52))))
                 strawberry <= YELLOW;
@@ -187,7 +187,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
 
-        else if (X == (leftX_strawberry + 12))
+        else if ((X == (leftX_strawberry + 24)) || (X == (leftX_strawberry + 25)))
             begin
             if ((Y >= (topY_strawberry + 41)) && (Y <= (topY_strawberry + 42)))
                 strawberry <= YELLOW;
@@ -201,7 +201,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
 
-        else if (X == (leftX_strawberry + 13))
+        else if ((X == (leftX_strawberry + 26)) || (X == (leftX_strawberry + 27)))
             begin
             if (((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 26))) || ((Y >= (topY_strawberry + 46)) && (Y <= (topY_strawberry + 47))))
                 strawberry <= YELLOW;
@@ -217,7 +217,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
 
-        else if (X == (leftX_strawberry + 14))
+        else if ((X == (leftX_strawberry + 28)) || (X == (leftX_strawberry + 29)))
             begin
             if ((Y >= (topY_strawberry + 31)) && (Y <= (topY_strawberry + 32)))
                 strawberry <= YELLOW;
@@ -233,7 +233,7 @@ module strawberry_display(
                 strawberry <= BACKGROUND;
             end
             
-        else if (X == (leftX_strawberry + 15))
+        else if ((X == (leftX_strawberry + 30)) || (X == (leftX_strawberry + 31)))
                 begin
                 if (((Y >= (topY_strawberry + 20)) && (Y <= (topY_strawberry + 21))) || ((Y >= (topY_strawberry + 38)) && (Y <= (topY_strawberry + 39))) || ((Y >= (topY_strawberry + 48)) && (Y <= (topY_strawberry + 49))))
                     strawberry <= YELLOW;
@@ -247,7 +247,7 @@ module strawberry_display(
                     strawberry <= BACKGROUND;
                 end
 
-        else if (X == (leftX_strawberry + 16))
+        else if ((X == (leftX_strawberry + 32)) || (X == (leftX_strawberry + 33)))
                 begin
                 if (((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 16))) || ((Y >= (topY_strawberry + 23)) && (Y <= (topY_strawberry + 24))))
                     strawberry <= YELLOW;
@@ -261,7 +261,7 @@ module strawberry_display(
                     strawberry <= BACKGROUND;
                 end
 
-        else if (X == (leftX_strawberry + 17))
+        else if ((X == (leftX_strawberry + 34)) || (X == (leftX_strawberry + 35)))
                 begin
                 if ((Y >= (topY_strawberry + 33)) && (Y <= (topY_strawberry + 34)))
                     strawberry <= YELLOW;
@@ -275,7 +275,7 @@ module strawberry_display(
                     strawberry <= BACKGROUND;
                 end
 
-        else if (X == (leftX_strawberry + 18))
+        else if ((X == (leftX_strawberry + 36)) || (X == (leftX_strawberry + 37)))
                 begin
                 if (((Y >= (topY_strawberry + 18)) && (Y <= (topY_strawberry + 19))) || ((Y >= (topY_strawberry + 43)) && (Y <= (topY_strawberry + 44))))
                     strawberry <= YELLOW;
@@ -289,7 +289,7 @@ module strawberry_display(
                     strawberry <= BACKGROUND;
                 end
 
-        else if (X == (leftX_strawberry + 19))
+        else if ((X == (leftX_strawberry + 38)) || (X == (leftX_strawberry + 39)))
                 begin
                 if (((Y >= (topY_strawberry + 27)) && (Y <= (topY_strawberry + 28))) || ((Y >= (topY_strawberry + 36)) && (Y <= (topY_strawberry + 37))))
                     strawberry <= YELLOW;
@@ -303,7 +303,7 @@ module strawberry_display(
                     strawberry <= BACKGROUND;
                 end
 
-        else if (X == (leftX_strawberry + 20))
+        else if ((X == (leftX_strawberry + 40)) || (X == (leftX_strawberry + 41)))
                 begin
                 if ((Y >= (topY_strawberry + 20)) && (Y <= (topY_strawberry + 21)))
                     strawberry <= YELLOW;
@@ -317,7 +317,7 @@ module strawberry_display(
                     strawberry <= BACKGROUND;
                 end
 
-        else if (X == (leftX_strawberry + 21))
+        else if ((X == (leftX_strawberry + 42)) || (X == (leftX_strawberry + 43)))
                 begin
                 if ((Y >= (topY_strawberry + 29)) && (Y <= (topY_strawberry + 30)))
                     strawberry <= YELLOW;
@@ -331,7 +331,7 @@ module strawberry_display(
                     strawberry <= BACKGROUND;
                 end
 
-        else if (X == (leftX_strawberry + 22))
+        else if ((X == (leftX_strawberry + 44)) || (X == (leftX_strawberry + 45)))
                 begin
                 if ((Y >= (topY_strawberry + 34)) && (Y <= (topY_strawberry + 35)))
                     strawberry <= YELLOW;
@@ -343,7 +343,7 @@ module strawberry_display(
                     strawberry <= BACKGROUND;
                 end
 
-        else if (X == (leftX_strawberry + 23))
+        else if ((X == (leftX_strawberry + 46)) || (X == (leftX_strawberry + 47)))
                 begin
                 if ((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 26)))
                     strawberry <= YELLOW;
@@ -355,7 +355,7 @@ module strawberry_display(
                     strawberry <= BACKGROUND;
                 end
 
-        else if (X == (leftX_strawberry + 24))
+        else if ((X == (leftX_strawberry + 48)) || (X == (leftX_strawberry + 49)))
                 begin
                 if ((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 33)))
                     strawberry <= BLACK;
