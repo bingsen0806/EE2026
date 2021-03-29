@@ -26,6 +26,7 @@ module strawberry_display(
     input leftX_strawberry,
     input topY_strawberry,
     input [15:0]BACKGROUND,
+    input [1:0] sliced,
     output reg [15:0]strawberry = 16'd0
     );
     
@@ -36,206 +37,564 @@ module strawberry_display(
     
     always @ (X or Y)
     begin
-    
-        if ((X == leftX_strawberry) || (X == (leftX_strawberry + 1)))
+        //unsliced strawberry
+        if (sliced == 2'b00)
             begin
-            if ((Y >= (topY_strawberry + 26)) && (Y <= (topY_strawberry + 34)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-
-        else if ((X == (leftX_strawberry + 2)) || (X == (leftX_strawberry + 3)))
-            begin
-            if ((Y >= (topY_strawberry + 30)) && (Y <= (topY_strawberry + 31)))
-                strawberry <= YELLOW;
-            else if ((Y >= (topY_strawberry + 26)) && (Y <= (topY_strawberry + 34)))
-                strawberry <= PINK;
-            else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 39)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-
-        else if ((X == (leftX_strawberry + 4)) || (X == (leftX_strawberry + 5)))
-            begin
-            if (((Y >= (topY_strawberry + 23)) && (Y <= (topY_strawberry + 24))) || ((Y >= (topY_strawberry + 35)) && (Y <= (topY_strawberry + 36))))
-                strawberry <= YELLOW;
-            else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 39)))
-                strawberry <= PINK;
-            else if ((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 41)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-
-        else if ((X == (leftX_strawberry + 6)) || (X == (leftX_strawberry + 7)))
-            begin
-            if ((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 41)))
-                strawberry <= PINK;
-            else if (((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 43))) || (Y == (topY_strawberry + 9)) || (Y == (topY_strawberry + 10)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-
-        else if ((X == (leftX_strawberry + 8)) || (X == (leftX_strawberry + 9)))
-            begin
-            if (((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 18))) || ((Y >= (topY_strawberry + 32)) && (Y <= (topY_strawberry + 33))) || ((Y >= (topY_strawberry + 41)) && (Y <= (topY_strawberry + 42))))
-                strawberry <= YELLOW;
-            else if ((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 43)))
-                strawberry <= PINK;
-            else if (((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 46))) || (Y == (topY_strawberry + 9)) || (Y == (topY_strawberry + 10)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-
-        else if ((X == (leftX_strawberry + 10)) || (X == (leftX_strawberry + 11)))
-            begin
-            if ((Y >= (topY_strawberry + 26)) && (Y <= (topY_strawberry + 27)))
-                strawberry <= YELLOW;
-            else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 10)))
-                strawberry <= GREEN;
-            else if ((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 46)))
-                strawberry <= PINK;
-            else if (Y == (topY_strawberry + 12))
-                strawberry <= BACKGROUND;
-            else if ((Y >= (topY_strawberry + 7)) && (Y <= (topY_strawberry + 48)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-
-        else if ((X == (leftX_strawberry + 12)) || (X == (leftX_strawberry + 13)))
-            begin
-            if (((Y >= (topY_strawberry + 14)) && (Y <= (topY_strawberry + 15))) || ((Y >= (topY_strawberry + 43)) && (Y <= (topY_strawberry + 44))))
-                strawberry <= YELLOW;
-            else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 10)))
-                strawberry <= GREEN;
-            else if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 48)))
-                strawberry <= PINK;
-            else if ((Y >= (topY_strawberry + 7)) && (Y <= (topY_strawberry + 50)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-
-        else if ((X == (leftX_strawberry + 14)) || (X == (leftX_strawberry + 15)))
-            begin
-            if (((Y >= (topY_strawberry + 20)) && (Y <= (topY_strawberry + 21))) || ((Y >= (topY_strawberry + 32)) && (Y <= (topY_strawberry + 33))) || ((Y >= (topY_strawberry + 38)) && (Y <= (topY_strawberry + 39))) || ((Y >= (topY_strawberry + 49)) && (Y <= (topY_strawberry + 50))))
-                strawberry <= YELLOW;
-            else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 10)))
-                strawberry <= GREEN;
-            else if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 48)))
-                strawberry <= PINK;
-            else if ((Y >= (topY_strawberry + 7)) && (Y <= (topY_strawberry + 52)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-
-        else if ((X == (leftX_strawberry + 16)) || (X == (leftX_strawberry + 17)))
-            begin
-            if ((Y >= (topY_strawberry + 10)) && (Y <= (topY_strawberry + 11)))
-                strawberry <= GREEN;
-            else if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 52)))
-                strawberry <= PINK;
-            else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 54)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-
-        else if ((X == (leftX_strawberry + 18)) || (X == (leftX_strawberry + 19)))
-            begin
-            if (((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 26))) || ((Y >= (topY_strawberry + 44)) && (Y <= (topY_strawberry + 45))))
-                strawberry <= YELLOW;
-            else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 12)))
-                strawberry <= GREEN;
-            else if ((Y >= (topY_strawberry + 18)) && (Y <= (topY_strawberry + 53)))
-                strawberry <= PINK;
-            else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 55)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-
-        else if ((X == (leftX_strawberry + 20)) || (X == (leftX_strawberry + 21)))
-            begin
-            if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 17)))
-                strawberry <= GREEN;
-            else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 53)))
-                strawberry <= PINK;
-            else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 55)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-
-        else if ((X == (leftX_strawberry + 22)) || (X == (leftX_strawberry + 23)))
-            begin
-            if (((Y >= (topY_strawberry + 29)) && (Y <= (topY_strawberry + 30))) || ((Y >= (topY_strawberry + 35)) && (Y <= (topY_strawberry + 36))) || ((Y >= (topY_strawberry + 51)) && (Y <= (topY_strawberry + 52))))
-                strawberry <= YELLOW;
-            else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 20)))
-                strawberry <= GREEN;
-            else if ((Y >= (topY_strawberry + 23)) && (Y <= (topY_strawberry + 54)))
-                strawberry <= PINK;
-            else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 57)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-
-        else if ((X == (leftX_strawberry + 24)) || (X == (leftX_strawberry + 25)))
-            begin
-            if ((Y >= (topY_strawberry + 41)) && (Y <= (topY_strawberry + 42)))
-                strawberry <= YELLOW;
-            else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 22)))
-                strawberry <= GREEN;
-            else if ((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 53)))
-                strawberry <= PINK;
-            else if ((Y >= (topY_strawberry + 5)) && (Y <= (topY_strawberry + 55)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-
-        else if ((X == (leftX_strawberry + 26)) || (X == (leftX_strawberry + 27)))
-            begin
-            if (((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 26))) || ((Y >= (topY_strawberry + 46)) && (Y <= (topY_strawberry + 47))))
-                strawberry <= YELLOW;
-            else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 20)))
-                strawberry <= GREEN;
-            else if ((Y >= (topY_strawberry + 23)) && (Y <= (topY_strawberry + 53)))
-                strawberry <= PINK;
-            else if ((Y >= (topY_strawberry + 5)) && (Y <= (topY_strawberry + 8)))
-                strawberry <= BACKGROUND;
-            else if ((Y >= (topY_strawberry + 2)) && (Y <= (topY_strawberry + 55)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-
-        else if ((X == (leftX_strawberry + 28)) || (X == (leftX_strawberry + 29)))
-            begin
-            if ((Y >= (topY_strawberry + 31)) && (Y <= (topY_strawberry + 32)))
-                strawberry <= YELLOW;
-            else if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 17)))
-                strawberry <= GREEN;
-            else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 52)))
-                strawberry <= PINK;
-            else if ((Y >= (topY_strawberry + 2)) && (Y <= (topY_strawberry + 8)))
-                strawberry <= BACKGROUND;
-            else if ((Y >= topY_strawberry) && (Y <= (topY_strawberry + 54)))
-                strawberry <= BLACK;
-            else 
-                strawberry <= BACKGROUND;
-            end
-            
-        else if ((X == (leftX_strawberry + 30)) || (X == (leftX_strawberry + 31)))
+            if ((X == leftX_strawberry) || (X == (leftX_strawberry + 1)))
                 begin
-                if (((Y >= (topY_strawberry + 20)) && (Y <= (topY_strawberry + 21))) || ((Y >= (topY_strawberry + 38)) && (Y <= (topY_strawberry + 39))) || ((Y >= (topY_strawberry + 48)) && (Y <= (topY_strawberry + 49))))
+                if ((Y >= (topY_strawberry + 26)) && (Y <= (topY_strawberry + 34)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 2)) || (X == (leftX_strawberry + 3)))
+                begin
+                if ((Y >= (topY_strawberry + 30)) && (Y <= (topY_strawberry + 31)))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 26)) && (Y <= (topY_strawberry + 34)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 39)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 4)) || (X == (leftX_strawberry + 5)))
+                begin
+                if (((Y >= (topY_strawberry + 23)) && (Y <= (topY_strawberry + 24))) || ((Y >= (topY_strawberry + 35)) && (Y <= (topY_strawberry + 36))))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 39)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 41)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 6)) || (X == (leftX_strawberry + 7)))
+                begin
+                if ((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 41)))
+                    strawberry <= PINK;
+                else if (((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 43))) || (Y == (topY_strawberry + 9)) || (Y == (topY_strawberry + 10)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 8)) || (X == (leftX_strawberry + 9)))
+                begin
+                if (((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 18))) || ((Y >= (topY_strawberry + 32)) && (Y <= (topY_strawberry + 33))) || ((Y >= (topY_strawberry + 41)) && (Y <= (topY_strawberry + 42))))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 43)))
+                    strawberry <= PINK;
+                else if (((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 46))) || (Y == (topY_strawberry + 9)) || (Y == (topY_strawberry + 10)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 10)) || (X == (leftX_strawberry + 11)))
+                begin
+                if ((Y >= (topY_strawberry + 26)) && (Y <= (topY_strawberry + 27)))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 10)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 46)))
+                    strawberry <= PINK;
+                else if (Y == (topY_strawberry + 12))
+                    strawberry <= BACKGROUND;
+                else if ((Y >= (topY_strawberry + 7)) && (Y <= (topY_strawberry + 48)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 12)) || (X == (leftX_strawberry + 13)))
+                begin
+                if (((Y >= (topY_strawberry + 14)) && (Y <= (topY_strawberry + 15))) || ((Y >= (topY_strawberry + 43)) && (Y <= (topY_strawberry + 44))))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 10)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 48)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 7)) && (Y <= (topY_strawberry + 50)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 14)) || (X == (leftX_strawberry + 15)))
+                begin
+                if (((Y >= (topY_strawberry + 20)) && (Y <= (topY_strawberry + 21))) || ((Y >= (topY_strawberry + 32)) && (Y <= (topY_strawberry + 33))) || ((Y >= (topY_strawberry + 38)) && (Y <= (topY_strawberry + 39))) || ((Y >= (topY_strawberry + 49)) && (Y <= (topY_strawberry + 50))))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 10)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 48)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 7)) && (Y <= (topY_strawberry + 52)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 16)) || (X == (leftX_strawberry + 17)))
+                begin
+                if ((Y >= (topY_strawberry + 10)) && (Y <= (topY_strawberry + 11)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 52)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 54)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 18)) || (X == (leftX_strawberry + 19)))
+                begin
+                if (((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 26))) || ((Y >= (topY_strawberry + 44)) && (Y <= (topY_strawberry + 45))))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 12)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 18)) && (Y <= (topY_strawberry + 53)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 55)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 20)) || (X == (leftX_strawberry + 21)))
+                begin
+                if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 17)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 53)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 55)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 22)) || (X == (leftX_strawberry + 23)))
+                begin
+                if (((Y >= (topY_strawberry + 29)) && (Y <= (topY_strawberry + 30))) || ((Y >= (topY_strawberry + 35)) && (Y <= (topY_strawberry + 36))) || ((Y >= (topY_strawberry + 51)) && (Y <= (topY_strawberry + 52))))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 20)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 23)) && (Y <= (topY_strawberry + 54)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 57)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 24)) || (X == (leftX_strawberry + 25)))
+                begin
+                if ((Y >= (topY_strawberry + 41)) && (Y <= (topY_strawberry + 42)))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 22)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 53)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 5)) && (Y <= (topY_strawberry + 55)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 26)) || (X == (leftX_strawberry + 27)))
+                begin
+                if (((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 26))) || ((Y >= (topY_strawberry + 46)) && (Y <= (topY_strawberry + 47))))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 20)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 23)) && (Y <= (topY_strawberry + 53)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 5)) && (Y <= (topY_strawberry + 8)))
+                    strawberry <= BACKGROUND;
+                else if ((Y >= (topY_strawberry + 2)) && (Y <= (topY_strawberry + 55)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 28)) || (X == (leftX_strawberry + 29)))
+                begin
+                if ((Y >= (topY_strawberry + 31)) && (Y <= (topY_strawberry + 32)))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 17)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 52)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 2)) && (Y <= (topY_strawberry + 8)))
+                    strawberry <= BACKGROUND;
+                else if ((Y >= topY_strawberry) && (Y <= (topY_strawberry + 54)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+                
+            else if ((X == (leftX_strawberry + 30)) || (X == (leftX_strawberry + 31)))
+                    begin
+                    if (((Y >= (topY_strawberry + 20)) && (Y <= (topY_strawberry + 21))) || ((Y >= (topY_strawberry + 38)) && (Y <= (topY_strawberry + 39))) || ((Y >= (topY_strawberry + 48)) && (Y <= (topY_strawberry + 49))))
+                        strawberry <= YELLOW;
+                    else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 12)))
+                        strawberry <= GREEN;
+                    else if ((Y >= (topY_strawberry + 18)) && (Y <= (topY_strawberry + 50)))
+                        strawberry <= PINK;
+                    else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 52)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+    
+            else if ((X == (leftX_strawberry + 32)) || (X == (leftX_strawberry + 33)))
+                    begin
+                    if (((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 16))) || ((Y >= (topY_strawberry + 23)) && (Y <= (topY_strawberry + 24))))
+                        strawberry <= YELLOW;
+                    else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 12)))
+                        strawberry <= GREEN;
+                    else if ((Y >= (topY_strawberry + 14)) && (Y <= (topY_strawberry + 48)))
+                        strawberry <= PINK;
+                    else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 50)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+    
+            else if ((X == (leftX_strawberry + 34)) || (X == (leftX_strawberry + 35)))
+                    begin
+                    if ((Y >= (topY_strawberry + 33)) && (Y <= (topY_strawberry + 34)))
+                        strawberry <= YELLOW;
+                    else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 12)))
+                        strawberry <= GREEN;
+                    else if ((Y >= (topY_strawberry + 14)) && (Y <= (topY_strawberry + 46)))
+                        strawberry <= PINK;
+                    else if ((Y >= (topY_strawberry + 7)) && (Y <= (topY_strawberry + 48)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+    
+            else if ((X == (leftX_strawberry + 36)) || (X == (leftX_strawberry + 37)))
+                    begin
+                    if (((Y >= (topY_strawberry + 18)) && (Y <= (topY_strawberry + 19))) || ((Y >= (topY_strawberry + 43)) && (Y <= (topY_strawberry + 44))))
+                        strawberry <= YELLOW;
+                    else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 12)))
+                        strawberry <= GREEN;
+                    else if ((Y >= (topY_strawberry + 14)) && (Y <= (topY_strawberry + 46)))
+                        strawberry <= PINK;
+                    else if ((Y >= (topY_strawberry + 7)) && (Y <= (topY_strawberry + 48)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+    
+            else if ((X == (leftX_strawberry + 38)) || (X == (leftX_strawberry + 39)))
+                    begin
+                    if (((Y >= (topY_strawberry + 27)) && (Y <= (topY_strawberry + 28))) || ((Y >= (topY_strawberry + 36)) && (Y <= (topY_strawberry + 37))))
+                        strawberry <= YELLOW;
+                    else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 10)))
+                        strawberry <= GREEN;
+                    else if ((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 44)))
+                        strawberry <= PINK;
+                    else if ((Y >= (topY_strawberry + 7)) && (Y <= (topY_strawberry + 46)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+    
+            else if ((X == (leftX_strawberry + 40)) || (X == (leftX_strawberry + 41)))
+                    begin
+                    if ((Y >= (topY_strawberry + 20)) && (Y <= (topY_strawberry + 21)))
+                        strawberry <= YELLOW;
+                    else if ((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 41)))
+                        strawberry <= PINK;
+                    else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 12)))
+                            strawberry <= BACKGROUND;
+                    else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 44)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+    
+            else if ((X == (leftX_strawberry + 42)) || (X == (leftX_strawberry + 43)))
+                    begin
+                    if ((Y >= (topY_strawberry + 29)) && (Y <= (topY_strawberry + 30)))
+                        strawberry <= YELLOW;
+                    else if ((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 39)))
+                        strawberry <= PINK;
+                    else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 14)))
+                            strawberry <= BACKGROUND;
+                    else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 41)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+    
+            else if ((X == (leftX_strawberry + 44)) || (X == (leftX_strawberry + 45)))
+                    begin
+                    if ((Y >= (topY_strawberry + 34)) && (Y <= (topY_strawberry + 35)))
+                        strawberry <= YELLOW;
+                    else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 37)))
+                        strawberry <= PINK;
+                    else if ((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 39)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+    
+            else if ((X == (leftX_strawberry + 46)) || (X == (leftX_strawberry + 47)))
+                    begin
+                    if ((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 26)))
+                        strawberry <= YELLOW;
+                    else if ((Y >= (topY_strawberry + 27)) && (Y <= (topY_strawberry + 33)))
+                        strawberry <= PINK;
+                    else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 37)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+    
+            else if ((X == (leftX_strawberry + 48)) || (X == (leftX_strawberry + 49)))
+                    begin
+                    if ((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 33)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+            else
+                strawberry <= BACKGROUND;
+            end
+        
+        //sliced strawberry
+        else 
+            begin
+            if ((X == leftX_strawberry) || (X == (leftX_strawberry + 1)))
+                begin
+                if ((Y >= (topY_strawberry + 26)) && (Y <= (topY_strawberry + 34)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 2)) || (X == (leftX_strawberry + 3)))
+                begin
+                if ((Y >= (topY_strawberry + 30)) && (Y <= (topY_strawberry + 31)))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 26)) && (Y <= (topY_strawberry + 34)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 39)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 4)) || (X == (leftX_strawberry + 5)))
+                begin
+                if (((Y >= (topY_strawberry + 23)) && (Y <= (topY_strawberry + 24))) || ((Y >= (topY_strawberry + 35)) && (Y <= (topY_strawberry + 36))))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 39)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 41)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 6)) || (X == (leftX_strawberry + 7)))
+                begin
+                if ((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 41)))
+                    strawberry <= PINK;
+                else if (((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 43))) || (Y == (topY_strawberry + 9)) || (Y == (topY_strawberry + 10)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 8)) || (X == (leftX_strawberry + 9)))
+                begin
+                if ((Y >= (topY_strawberry + 41)) && (Y <= (topY_strawberry + 44)))
+                    strawberry <= BACKGROUND;
+                else if (((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 18))) || ((Y >= (topY_strawberry + 32)) && (Y <= (topY_strawberry + 33))) || ((Y >= (topY_strawberry + 41)) && (Y <= (topY_strawberry + 42))))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 43)))
+                    strawberry <= PINK;
+                else if (((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 46))) || (Y == (topY_strawberry + 9)) || (Y == (topY_strawberry + 10)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 10)) || (X == (leftX_strawberry + 11)))
+                begin
+                if ((Y >= (topY_strawberry + 38)) && (Y <= (topY_strawberry + 41)))
+                    strawberry <= BACKGROUND;
+                else if ((Y >= (topY_strawberry + 26)) && (Y <= (topY_strawberry + 27)))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 10)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 46)))
+                    strawberry <= PINK;
+                else if (Y == (topY_strawberry + 12))
+                    strawberry <= BACKGROUND;
+                else if ((Y >= (topY_strawberry + 7)) && (Y <= (topY_strawberry + 48)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 12)) || (X == (leftX_strawberry + 13)))
+                begin
+                if ((Y >= (topY_strawberry + 36)) && (Y <= (topY_strawberry + 38)))
+                    strawberry <= BACKGROUND;
+                else if (((Y >= (topY_strawberry + 14)) && (Y <= (topY_strawberry + 15))) || ((Y >= (topY_strawberry + 43)) && (Y <= (topY_strawberry + 44))))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 10)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 48)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 7)) && (Y <= (topY_strawberry + 50)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 14)) || (X == (leftX_strawberry + 15)))
+                begin
+                if ((Y >= (topY_strawberry + 34)) && (Y <= (topY_strawberry + 36)))
+                    strawberry <= BACKGROUND;
+                else if (((Y >= (topY_strawberry + 20)) && (Y <= (topY_strawberry + 21))) || ((Y >= (topY_strawberry + 32)) && (Y <= (topY_strawberry + 33))) || ((Y >= (topY_strawberry + 38)) && (Y <= (topY_strawberry + 39))) || ((Y >= (topY_strawberry + 49)) && (Y <= (topY_strawberry + 50))))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 10)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 48)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 7)) && (Y <= (topY_strawberry + 52)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 16)) || (X == (leftX_strawberry + 17)))
+                begin
+                if ((Y >= (topY_strawberry + 31)) && (Y <= (topY_strawberry + 34)))
+                    strawberry <= BACKGROUND;
+                else if ((Y >= (topY_strawberry + 10)) && (Y <= (topY_strawberry + 11)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 52)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 54)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 18)) || (X == (leftX_strawberry + 19)))
+                begin
+                if ((Y >= (topY_strawberry + 29)) && (Y <= (topY_strawberry + 31)))
+                    strawberry <= BACKGROUND;
+                else if (((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 26))) || ((Y >= (topY_strawberry + 44)) && (Y <= (topY_strawberry + 45))))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 12)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 18)) && (Y <= (topY_strawberry + 53)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 55)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 20)) || (X == (leftX_strawberry + 21)))
+                begin
+                if ((Y >= (topY_strawberry + 26)) && (Y <= (topY_strawberry + 29)))
+                    strawberry <= BACKGROUND;
+                else if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 17)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 53)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 55)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 22)) || (X == (leftX_strawberry + 23)))
+                begin
+                if ((Y >= (topY_strawberry + 24)) && (Y <= (topY_strawberry + 27)))
+                    strawberry <= BACKGROUND;
+                else if (((Y >= (topY_strawberry + 29)) && (Y <= (topY_strawberry + 30))) || ((Y >= (topY_strawberry + 35)) && (Y <= (topY_strawberry + 36))) || ((Y >= (topY_strawberry + 51)) && (Y <= (topY_strawberry + 52))))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 20)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 23)) && (Y <= (topY_strawberry + 54)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 57)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 24)) || (X == (leftX_strawberry + 25)))
+                begin
+                if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 24)))
+                    strawberry <= BACKGROUND;
+                else if ((Y >= (topY_strawberry + 41)) && (Y <= (topY_strawberry + 42)))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 22)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 53)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 5)) && (Y <= (topY_strawberry + 55)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 26)) || (X == (leftX_strawberry + 27)))
+                begin
+                if ((Y >= (topY_strawberry + 19)) && (Y <= (topY_strawberry + 21)))
+                    strawberry <= BACKGROUND;
+                else if (((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 26))) || ((Y >= (topY_strawberry + 46)) && (Y <= (topY_strawberry + 47))))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 20)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 23)) && (Y <= (topY_strawberry + 53)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 5)) && (Y <= (topY_strawberry + 8)))
+                    strawberry <= BACKGROUND;
+                else if ((Y >= (topY_strawberry + 2)) && (Y <= (topY_strawberry + 55)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+    
+            else if ((X == (leftX_strawberry + 28)) || (X == (leftX_strawberry + 29)))
+                begin
+                if ((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 19)))
+                    strawberry <= BACKGROUND;
+                else if ((Y >= (topY_strawberry + 31)) && (Y <= (topY_strawberry + 32)))
+                    strawberry <= YELLOW;
+                else if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 17)))
+                    strawberry <= GREEN;
+                else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 52)))
+                    strawberry <= PINK;
+                else if ((Y >= (topY_strawberry + 2)) && (Y <= (topY_strawberry + 8)))
+                    strawberry <= BACKGROUND;
+                else if ((Y >= topY_strawberry) && (Y <= (topY_strawberry + 54)))
+                    strawberry <= BLACK;
+                else 
+                    strawberry <= BACKGROUND;
+                end
+                
+            else if ((X == (leftX_strawberry + 30)) || (X == (leftX_strawberry + 31)))
+                begin
+                if ((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 17)))
+                    strawberry <= BACKGROUND;
+                else if (((Y >= (topY_strawberry + 20)) && (Y <= (topY_strawberry + 21))) || ((Y >= (topY_strawberry + 38)) && (Y <= (topY_strawberry + 39))) || ((Y >= (topY_strawberry + 48)) && (Y <= (topY_strawberry + 49))))
                     strawberry <= YELLOW;
                 else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 12)))
                     strawberry <= GREEN;
@@ -246,10 +605,12 @@ module strawberry_display(
                 else 
                     strawberry <= BACKGROUND;
                 end
-
-        else if ((X == (leftX_strawberry + 32)) || (X == (leftX_strawberry + 33)))
+    
+            else if ((X == (leftX_strawberry + 32)) || (X == (leftX_strawberry + 33)))
                 begin
-                if (((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 16))) || ((Y >= (topY_strawberry + 23)) && (Y <= (topY_strawberry + 24))))
+                if ((Y >= (topY_strawberry + 13)) && (Y <= (topY_strawberry + 16)))
+                    strawberry <= BACKGROUND;
+                else if (((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 16))) || ((Y >= (topY_strawberry + 23)) && (Y <= (topY_strawberry + 24))))
                     strawberry <= YELLOW;
                 else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 12)))
                     strawberry <= GREEN;
@@ -260,10 +621,12 @@ module strawberry_display(
                 else 
                     strawberry <= BACKGROUND;
                 end
-
-        else if ((X == (leftX_strawberry + 34)) || (X == (leftX_strawberry + 35)))
+    
+            else if ((X == (leftX_strawberry + 34)) || (X == (leftX_strawberry + 35)))
                 begin
-                if ((Y >= (topY_strawberry + 33)) && (Y <= (topY_strawberry + 34)))
+                if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 13)))
+                    strawberry <= BACKGROUND;
+                else if ((Y >= (topY_strawberry + 33)) && (Y <= (topY_strawberry + 34)))
                     strawberry <= YELLOW;
                 else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 12)))
                     strawberry <= GREEN;
@@ -274,9 +637,11 @@ module strawberry_display(
                 else 
                     strawberry <= BACKGROUND;
                 end
-
-        else if ((X == (leftX_strawberry + 36)) || (X == (leftX_strawberry + 37)))
+    
+            else if ((X == (leftX_strawberry + 36)) || (X == (leftX_strawberry + 37)))
                 begin
+                if (Y <= (topY_strawberry + 11))
+                    strawberry <= BACKGROUND;
                 if (((Y >= (topY_strawberry + 18)) && (Y <= (topY_strawberry + 19))) || ((Y >= (topY_strawberry + 43)) && (Y <= (topY_strawberry + 44))))
                     strawberry <= YELLOW;
                 else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 12)))
@@ -288,82 +653,83 @@ module strawberry_display(
                 else 
                     strawberry <= BACKGROUND;
                 end
-
-        else if ((X == (leftX_strawberry + 38)) || (X == (leftX_strawberry + 39)))
-                begin
-                if (((Y >= (topY_strawberry + 27)) && (Y <= (topY_strawberry + 28))) || ((Y >= (topY_strawberry + 36)) && (Y <= (topY_strawberry + 37))))
-                    strawberry <= YELLOW;
-                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 10)))
-                    strawberry <= GREEN;
-                else if ((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 44)))
-                    strawberry <= PINK;
-                else if ((Y >= (topY_strawberry + 7)) && (Y <= (topY_strawberry + 46)))
-                    strawberry <= BLACK;
-                else 
-                    strawberry <= BACKGROUND;
-                end
-
-        else if ((X == (leftX_strawberry + 40)) || (X == (leftX_strawberry + 41)))
-                begin
-                if ((Y >= (topY_strawberry + 20)) && (Y <= (topY_strawberry + 21)))
-                    strawberry <= YELLOW;
-                else if ((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 41)))
-                    strawberry <= PINK;
-                else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 12)))
-                        strawberry <= BACKGROUND;
-                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 44)))
-                    strawberry <= BLACK;
-                else 
-                    strawberry <= BACKGROUND;
-                end
-
-        else if ((X == (leftX_strawberry + 42)) || (X == (leftX_strawberry + 43)))
-                begin
-                if ((Y >= (topY_strawberry + 29)) && (Y <= (topY_strawberry + 30)))
-                    strawberry <= YELLOW;
-                else if ((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 39)))
-                    strawberry <= PINK;
-                else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 14)))
-                        strawberry <= BACKGROUND;
-                else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 41)))
-                    strawberry <= BLACK;
-                else 
-                    strawberry <= BACKGROUND;
-                end
-
-        else if ((X == (leftX_strawberry + 44)) || (X == (leftX_strawberry + 45)))
-                begin
-                if ((Y >= (topY_strawberry + 34)) && (Y <= (topY_strawberry + 35)))
-                    strawberry <= YELLOW;
-                else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 37)))
-                    strawberry <= PINK;
-                else if ((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 39)))
-                    strawberry <= BLACK;
-                else 
-                    strawberry <= BACKGROUND;
-                end
-
-        else if ((X == (leftX_strawberry + 46)) || (X == (leftX_strawberry + 47)))
-                begin
-                if ((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 26)))
-                    strawberry <= YELLOW;
-                else if ((Y >= (topY_strawberry + 27)) && (Y <= (topY_strawberry + 33)))
-                    strawberry <= PINK;
-                else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 37)))
-                    strawberry <= BLACK;
-                else 
-                    strawberry <= BACKGROUND;
-                end
-
-        else if ((X == (leftX_strawberry + 48)) || (X == (leftX_strawberry + 49)))
-                begin
-                if ((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 33)))
-                    strawberry <= BLACK;
-                else 
-                    strawberry <= BACKGROUND;
-                end
-        else
-            strawberry <= BACKGROUND;
     
+            else if ((X == (leftX_strawberry + 38)) || (X == (leftX_strawberry + 39)))
+                    begin
+                    if (((Y >= (topY_strawberry + 27)) && (Y <= (topY_strawberry + 28))) || ((Y >= (topY_strawberry + 36)) && (Y <= (topY_strawberry + 37))))
+                        strawberry <= YELLOW;
+                    else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 10)))
+                        strawberry <= GREEN;
+                    else if ((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 44)))
+                        strawberry <= PINK;
+                    else if ((Y >= (topY_strawberry + 7)) && (Y <= (topY_strawberry + 46)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+    
+            else if ((X == (leftX_strawberry + 40)) || (X == (leftX_strawberry + 41)))
+                    begin
+                    if ((Y >= (topY_strawberry + 20)) && (Y <= (topY_strawberry + 21)))
+                        strawberry <= YELLOW;
+                    else if ((Y >= (topY_strawberry + 15)) && (Y <= (topY_strawberry + 41)))
+                        strawberry <= PINK;
+                    else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 12)))
+                        strawberry <= BACKGROUND;
+                    else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 44)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+    
+            else if ((X == (leftX_strawberry + 42)) || (X == (leftX_strawberry + 43)))
+                    begin
+                    if ((Y >= (topY_strawberry + 29)) && (Y <= (topY_strawberry + 30)))
+                        strawberry <= YELLOW;
+                    else if ((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 39)))
+                        strawberry <= PINK;
+                    else if ((Y >= (topY_strawberry + 11)) && (Y <= (topY_strawberry + 14)))
+                        strawberry <= BACKGROUND;
+                    else if ((Y >= (topY_strawberry + 9)) && (Y <= (topY_strawberry + 41)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+    
+            else if ((X == (leftX_strawberry + 44)) || (X == (leftX_strawberry + 45)))
+                    begin
+                    if ((Y >= (topY_strawberry + 34)) && (Y <= (topY_strawberry + 35)))
+                        strawberry <= YELLOW;
+                    else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 37)))
+                        strawberry <= PINK;
+                    else if ((Y >= (topY_strawberry + 17)) && (Y <= (topY_strawberry + 39)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+    
+            else if ((X == (leftX_strawberry + 46)) || (X == (leftX_strawberry + 47)))
+                    begin
+                    if ((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 26)))
+                        strawberry <= YELLOW;
+                    else if ((Y >= (topY_strawberry + 27)) && (Y <= (topY_strawberry + 33)))
+                        strawberry <= PINK;
+                    else if ((Y >= (topY_strawberry + 21)) && (Y <= (topY_strawberry + 37)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+    
+            else if ((X == (leftX_strawberry + 48)) || (X == (leftX_strawberry + 49)))
+                    begin
+                    if ((Y >= (topY_strawberry + 25)) && (Y <= (topY_strawberry + 33)))
+                        strawberry <= BLACK;
+                    else 
+                        strawberry <= BACKGROUND;
+                    end
+            else
+                strawberry <= BACKGROUND;            
+            end
+        
     end
 endmodule
