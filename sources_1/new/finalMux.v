@@ -69,6 +69,11 @@ module finalMux(
             an <= 4'b1111;
             seg <= 8'b11111_111;        
         end
+        4'b0111: begin //potion win
+            oled_data <= 16'b00000_111111_00000;
+            an <= 4'b1111;
+            seg <= 8'b11111_111;
+        end
         endcase
     
     

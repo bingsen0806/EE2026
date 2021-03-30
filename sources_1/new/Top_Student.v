@@ -110,7 +110,7 @@ module Top_Student (
     
     wire [3:0] an_pokemon; wire [7:0] seg_pokemon; //added
     
-    wire done_initialize; wire [15:0] oled_potion_mixing; wire potion_ended; wire fruit_ended;
+    wire done_initialize; wire [15:0] oled_potion_mixing; wire potion_ended; wire fruit_ended; wire potion_win;
     wire[15:0] oled_loading; wire [15:0] oled_basic; wire[15:0] oled_fruit;
     finalMux finalMux(
         .clk(basys_clk),
@@ -144,7 +144,8 @@ module Top_Student (
         .fruit_ninja_ended(fruit_ended), ////////////////changed
         .potion_mixing_ended(potion_ended),
         .state(state),
-        .done_initialize(done_initialize)
+        .done_initialize(done_initialize),
+        .potion_win(potion_win)
     );
     
     PokemonGameOver_Display game_over_display(
@@ -201,7 +202,9 @@ module Top_Student (
         .potion_ended(potion_ended),
         .raw_mic_data(mic_in), //for randomness
         .loading_clk(clk_5),
-        .oled_loading(oled_loading)
+        .oled_loading(oled_loading),
+        .freq(freq),
+        .actualWin(potion_win)
     );  
     
     volume_bar Volume_bar(

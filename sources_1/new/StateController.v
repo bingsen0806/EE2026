@@ -26,7 +26,8 @@ module StateController(
     input [1:0] nextStateMenu, //00 goes to volume bar, 01 goes to pokemon, 10 goes to fruit ninja, 11 goes to potion mixing
     input pokemon_ended, fruit_ninja_ended, potion_mixing_ended,
     output reg [3:0] state = 4'b0000,
-    input done_initialize
+    input done_initialize,
+    input potion_win
     );
     
     always @(posedge clk) begin
@@ -35,8 +36,8 @@ module StateController(
             if(btnC == 1) begin
                 if(nextStateMenu == 2'b00) state <= 4'b0001;
                 else if (nextStateMenu == 2'b01) state <= 4'b0010;
-                else if (nextStateMenu == 2'b10) state <= 4'b0110; //temporary only, remember change back to 0011
-                else if (nextStateMenu == 2'b11) state <= 4'b0100; //remember to change back to 0100
+                else if (nextStateMenu == 2'b10) state <= 4'b0100; //temporary only, remember change back to 0100
+                else if (nextStateMenu == 2'b11) state <= 4'b0110; //remember to change back to 0110
             end
         end
         4'b0001: begin //volume bar 
@@ -62,11 +63,18 @@ module StateController(
         4'b0101: begin //potion mixing
             if (potion_mixing_ended == 1) begin //change back to potion_mixing_ended later
                 state <= 4'b0000; //go back to menu
+            end else if (potion_win == 1) begin
+                state <= 4'b0111;
             end
         end
         4'b0110: begin //potion mixing initialization
             if (done_initialize == 1) begin
                 state <= 4'b0101;
+            end
+        end
+        4'b0111: begin //potion win
+            if (btnC == 1) begin
+                state <= 4'b0000;
             end
         end
         endcase

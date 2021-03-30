@@ -31,7 +31,9 @@ module Potion(
     output potion_ended,
     input [11:0] raw_mic_data, //for randomness
     input loading_clk,
-    output [15:0] oled_loading
+    output [15:0] oled_loading,
+    output actualWin,
+    input [11:0] freq
     );
     
     wire [7:0] selected; wire[7:0] confirmed; wire[6:0] TIMELEFT;
@@ -74,7 +76,9 @@ module Potion(
         .done_initialize(done_initialize),
         .potion_ended(potion_ended),
         .confirmed(confirmed),
-        .TIMELEFT(TIMELEFT)
+        .TIMELEFT(TIMELEFT),
+        .freq(freq),
+        .actualWin(actualWin)
     );
     
     Loading loading(

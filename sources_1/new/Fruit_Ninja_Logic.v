@@ -43,7 +43,7 @@ module Fruit_Ninja_Logic(
     reg [8:0] countCanSlice = 9'd0;
     reg already_have_random = 0;
     reg [2:0] random = 3'd0;
-    reg [9:0] timer = 10'd0; //timer increases when fruit is not sliced
+    reg [10:0] timer = 11'd0; //timer increases when fruit is not sliced
     always @(posedge single_pulse_clk) begin  
         //If the state is in the game state and not ended
         if (state == 4'b0100 && fruit_ended == 0) begin  
@@ -69,7 +69,7 @@ module Fruit_Ninja_Logic(
 
             // If not sliced after certain time display next fruit
             timer <= timer + 1;
-            if (timer == 999) begin
+            if (timer == 1999) begin
                 timer <=0;
                 if (already_have_random == 1) begin //If u have a random fruit, display the random fruit and disablle old fruit
                     fruit_EN <= (6'b000001 << random); //(bitshift)
@@ -87,7 +87,7 @@ module Fruit_Ninja_Logic(
             
             if(can_slice == 0) begin
                 countCanSlice <= countCanSlice + 1;
-                if(countCanSlice == 99) begin
+                if(countCanSlice == 249) begin
                     countCanSlice <= 0;
                     can_slice <= 1;
                 end
@@ -96,7 +96,7 @@ module Fruit_Ninja_Logic(
         else if (state == 4'b0000) begin //back to menu alrdy, reinitialize everything
             already_have_random <= 0;
             random <= 3'd0;
-            timer <= 10'd0;
+            timer <= 11'd0;
             fruit_ended <= 0;
             fruit_EN <= 6'b000000;
             can_slice <= 0;
