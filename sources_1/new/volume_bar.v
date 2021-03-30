@@ -21,7 +21,7 @@
 
 
 module volume_bar(
-    input sw0, sw1, sw2, //changed to 3 bit from 4 bit 
+    input sw0, sw1, sw2, sw4,//changed to 3 bit from 4 bit 
     input [3:0] mic_data, 
     input [6:0] X, 
     input [5:0] Y, 
@@ -48,7 +48,10 @@ module volume_bar(
     reg [15:0] HIGH_COLOUR = RED;
     reg [1:0] border_width = 2'd1;
     reg border_on = 1;
+    wire [15:0] BACKGROUND; wire [15:0] BORDER_COLOUR;
     
+    assign BACKGROUND = sw2 ? WHITE : BLACK;
+    assign BORDER_COLOUR = sw2 ? BLACK : WHITE;
     always @(sw0 or sw1 or sw2) begin
         if(sw1 == 1) begin
             if(sw0 == 1) begin
@@ -69,14 +72,15 @@ module volume_bar(
     
     always @ (posedge single_pulse_clk) begin
         if (state == 4'b0000) leftX <= 7'd43;
-        if (btnL == 1 && leftX > 0 && state == 4'b0001) leftX <= leftX - 1;
-        if (btnR == 1&& leftX < 95 && state == 4'b0001) leftX <= leftX + 1;
+        if (btnL == 1 && leftX > border_width + 5 && state == 4'b0001) leftX <= leftX - 5;
+        if (btnR == 1&& leftX < 95 - border_width - 5 && state == 4'b0001) leftX <= leftX + 5;
     end  
     
     //white border
     always @ (X or Y) begin
 
-        if (X < border_width || X > 95 - border_width || Y < border_width || Y > 63-border_width) colour = WHITE;
+        if (X < border_width || X > 95 - border_width || Y < border_width || Y > 63-border_width) colour = BORDER_COLOUR;
+        else if (sw4 == 1) colour = BACKGROUND;
         else begin
             if (X >= leftX && X < leftX + LENGTH) begin                  
                 if (mic_data >= 15 && Y >= 2 && Y <= 4) colour = HIGH_COLOUR;
@@ -94,10 +98,10 @@ module volume_bar(
                 else if (mic_data >= 3 && Y >= 50 && Y <= 52) colour = LOW_COLOUR;
                 else if (mic_data >= 2 && Y >= 54 && Y <= 56) colour = LOW_COLOUR;
                 else if (mic_data >= 1 && Y >= 58 && Y <= 60) colour = LOW_COLOUR;
-                else colour = BLACK;
+                else colour = BACKGROUND;
                 
             end
-            else colour = BLACK;
+            else colour = BACKGROUND;
         end      
     end
 

@@ -208,6 +208,7 @@ module Top_Student (
         .sw0(sw[5]), //changed to 3 bit from 4 bit 
         .sw1(sw[6]),
         .sw2(sw[7]),
+        .sw4(sw[8]),
         .mic_data(volume_level_peak), 
         .X(X), 
         .Y(Y), 

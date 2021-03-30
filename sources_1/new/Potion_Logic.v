@@ -372,7 +372,7 @@ module Potion_Logic(
         else if (state == 4'b0101) begin
             done_initialize <= 0;
             initialize_values <= 0; 
-            
+            //Frequency
             //Reduce time
             time_left <= time_left - 1;
             if (time_left == 1) begin
