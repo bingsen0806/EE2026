@@ -217,7 +217,7 @@ module Top_Student (
         .Y(Y), 
         .colour(oled_basic),
         .btnL(leftButton),
-        .btnR(centreButton),
+        .btnR(rightButton),
         .single_pulse_clk(clk_1k),
         .state(state)
     );

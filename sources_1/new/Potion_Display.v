@@ -33,7 +33,8 @@ module Potion_Display(
     input [2:0] colour1_6, colour2_6, colour3_6, colour4_6,
     input [2:0] colour1_7, colour2_7, colour3_7, colour4_7, //7th boiler
     output [15:0] oled_data,
-    input [6:0] TIMELEFT
+    input [6:0] TIMELEFT,
+    input [6:0] broken
     );
     //parameter [15:0] GREEN4 = 16'b10110_111010_10100;
     
@@ -61,13 +62,13 @@ module Potion_Display(
     end
     wire [15:0] oled_b1, oled_b2, oled_b3, oled_b4, oled_b5, oled_b6, oled_b7, oled_conical;
     
-    Boiler boiler1(.X(X),.Y(Y),.leftX(7'd4),.topY(6'd1),.BACKGROUND(BACKGROUND),.selected(selected[0]),.confirmed(confirmed[0]),.colour1(colour1_1),.colour2(colour2_1),.colour3(colour3_1),.colour4(colour4_1),.oled_data(oled_b1));
-    Boiler boiler2(.X(X),.Y(Y),.leftX(7'd26),.topY(6'd1),.BACKGROUND(BACKGROUND),.selected(selected[1]),.confirmed(confirmed[1]),.colour1(colour1_2),.colour2(colour2_2),.colour3(colour3_2),.colour4(colour4_2),.oled_data(oled_b2));
-    Boiler boiler3(.X(X),.Y(Y),.leftX(7'd48),.topY(6'd1),.BACKGROUND(BACKGROUND),.selected(selected[2]),.confirmed(confirmed[2]),.colour1(colour1_3),.colour2(colour2_3),.colour3(colour3_3),.colour4(colour4_3),.oled_data(oled_b3));
-    Boiler boiler4(.X(X),.Y(Y),.leftX(7'd70),.topY(6'd1),.BACKGROUND(BACKGROUND),.selected(selected[3]),.confirmed(confirmed[3]),.colour1(colour1_4),.colour2(colour2_4),.colour3(colour3_4),.colour4(colour4_4),.oled_data(oled_b4));
-    Boiler boiler5(.X(X),.Y(Y),.leftX(7'd4),.topY(6'd33),.BACKGROUND(BACKGROUND),.selected(selected[4]),.confirmed(confirmed[4]),.colour1(colour1_5),.colour2(colour2_5),.colour3(colour3_5),.colour4(colour4_5),.oled_data(oled_b5));
-    Boiler boiler6(.X(X),.Y(Y),.leftX(7'd26),.topY(6'd33),.BACKGROUND(BACKGROUND),.selected(selected[5]),.confirmed(confirmed[5]),.colour1(colour1_6),.colour2(colour2_6),.colour3(colour3_6),.colour4(colour4_6),.oled_data(oled_b6));
-    Boiler boiler7(.X(X),.Y(Y),.leftX(7'd48),.topY(6'd33),.BACKGROUND(BACKGROUND),.selected(selected[6]),.confirmed(confirmed[6]),.colour1(colour1_7),.colour2(colour2_7),.colour3(colour3_7),.colour4(colour4_7),.oled_data(oled_b7));
+    Boiler boiler1(.X(X),.Y(Y),.leftX(7'd4),.topY(6'd1),.BACKGROUND(BACKGROUND),.selected(selected[0]),.confirmed(confirmed[0]),.colour1(colour1_1),.colour2(colour2_1),.colour3(colour3_1),.colour4(colour4_1),.oled_data(oled_b1),.broken(broken[0]));
+    Boiler boiler2(.X(X),.Y(Y),.leftX(7'd26),.topY(6'd1),.BACKGROUND(BACKGROUND),.selected(selected[1]),.confirmed(confirmed[1]),.colour1(colour1_2),.colour2(colour2_2),.colour3(colour3_2),.colour4(colour4_2),.oled_data(oled_b2),.broken(broken[1]));
+    Boiler boiler3(.X(X),.Y(Y),.leftX(7'd48),.topY(6'd1),.BACKGROUND(BACKGROUND),.selected(selected[2]),.confirmed(confirmed[2]),.colour1(colour1_3),.colour2(colour2_3),.colour3(colour3_3),.colour4(colour4_3),.oled_data(oled_b3),.broken(broken[2]));
+    Boiler boiler4(.X(X),.Y(Y),.leftX(7'd70),.topY(6'd1),.BACKGROUND(BACKGROUND),.selected(selected[3]),.confirmed(confirmed[3]),.colour1(colour1_4),.colour2(colour2_4),.colour3(colour3_4),.colour4(colour4_4),.oled_data(oled_b4),.broken(broken[3]));
+    Boiler boiler5(.X(X),.Y(Y),.leftX(7'd4),.topY(6'd33),.BACKGROUND(BACKGROUND),.selected(selected[4]),.confirmed(confirmed[4]),.colour1(colour1_5),.colour2(colour2_5),.colour3(colour3_5),.colour4(colour4_5),.oled_data(oled_b5),.broken(broken[4]));
+    Boiler boiler6(.X(X),.Y(Y),.leftX(7'd26),.topY(6'd33),.BACKGROUND(BACKGROUND),.selected(selected[5]),.confirmed(confirmed[5]),.colour1(colour1_6),.colour2(colour2_6),.colour3(colour3_6),.colour4(colour4_6),.oled_data(oled_b6),.broken(broken[5]));
+    Boiler boiler7(.X(X),.Y(Y),.leftX(7'd48),.topY(6'd33),.BACKGROUND(BACKGROUND),.selected(selected[6]),.confirmed(confirmed[6]),.colour1(colour1_7),.colour2(colour2_7),.colour3(colour3_7),.colour4(colour4_7),.oled_data(oled_b7),.broken(broken[6]));
     Conical conical(.X(X),.Y(Y),.leftX(7'd70),.topY(6'd33),.BACKGROUND(BACKGROUND),.selected(selected[7]),.oled_data(oled_conical));
     
     assign oled_data = (X >= 7'd4 && X <= 7'd21 && Y >= 6'd1 && Y <= 6'd30) ? oled_b1:

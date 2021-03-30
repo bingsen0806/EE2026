@@ -73,7 +73,7 @@ module volume_bar(
     always @ (posedge single_pulse_clk) begin
         if (state == 4'b0000) leftX <= 7'd43;
         if (btnL == 1 && leftX > border_width + 5 && state == 4'b0001) leftX <= leftX - 5;
-        if (btnR == 1&& leftX < 95 - border_width - 5 && state == 4'b0001) leftX <= leftX + 5;
+        if (btnR == 1 && (leftX <= (7'd95 - border_width -LENGTH - 7'd5)) && state == 4'b0001) leftX <= leftX + 5;
     end  
     
     //white border

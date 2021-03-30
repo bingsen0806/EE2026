@@ -38,7 +38,8 @@ module Potion_Logic(
     output [7:0] confirmed,
     output [6:0] TIMELEFT,
     input [11:0] freq,
-    output reg actualWin = 0
+    output reg actualWin = 0,
+    output reg [6:0] broken = 7'b0000000
     );
     parameter [24:0] TIME_LIMIT = 25'd60000;
     
@@ -384,6 +385,12 @@ module Potion_Logic(
                         end
                     end
                     win <= 1;   
+                end else if (time_left < TIME_LIMIT/5 && freq > 600 && selecting < 7) begin //make the glass break
+                    broken[selecting] <= 1;
+                    colours[selecting][0] <= 3'd7;
+                    colours[selecting][1] <= 3'd7;
+                    colours[selecting][2] <= 3'd7;
+                    colours[selecting][3] <= 3'd7;
                 end
                 
                 
@@ -443,15 +450,7 @@ module Potion_Logic(
                             
                             //code winning condition
                             //If want to add animation, rmb that colours may not reflect true colour during animation
-                            num_completed = 0;
-                            for(i = 0; i < 7; i = i + 1) begin
-                                if(colours[i][0]==colours[i][1] && colours[i][2]==colours[i][3] && colours[i][1]==colours[i][2]) begin
-                                    num_completed = num_completed + 1;
-                                end
-                            end 
-                            if (num_completed == 7) begin
-                                win <= 1;
-                            end    
+   
                             confirm1 <= 3'd7; //after pouring, all bottles are not confirmed selected anymore
                                               // if invalid selection is made, all bottles are not confirmed selected also                   
                         end else begin      //no bottle confirm selected yet, so confirm select this one
@@ -459,6 +458,18 @@ module Potion_Logic(
                         end 
                     end
                 end
+                
+                //CHANGEDDDD MOVED WINNING CONDITION OUTSIDE
+                num_completed = 0;
+                for(i = 0; i < 7; i = i + 1) begin
+                    if(colours[i][0]==colours[i][1] && colours[i][2]==colours[i][3] && colours[i][1]==colours[i][2]) begin
+                        num_completed = num_completed + 1;
+                    end
+                end 
+                if (num_completed == 7) begin
+                    win <= 1;
+                end 
+                
             end else if (win == 1) begin
                 countWin <= countWin + 1;
                 if (countWin == 1999) begin
@@ -473,6 +484,7 @@ module Potion_Logic(
             confirm1 = 3'd7; confirm2 = 3'd7;
             win <= 0;
             actualWin <= 0;
+            broken <= 7'b0000000;
         end
     end
     

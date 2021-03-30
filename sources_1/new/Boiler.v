@@ -32,7 +32,8 @@ module Boiler(
     input [2:0] colour1,
     input [2:0] colour2,
     input [2:0] colour3,
-    input [2:0] colour4
+    input [2:0] colour4,
+    input broken
     );
     
     parameter [15:0] WHITE = 16'b11111_111111_11111; //000
@@ -112,42 +113,56 @@ module Boiler(
             else oled_data = BACKGROUND;
         end else if (Y >= topY + 10 && Y <= topY + 14) begin
             if (X == leftX + 6 || X == leftX + 11) oled_data = BLACK;
-            else if (X >= leftX + 7 && X <= leftX + 10) oled_data = FOURTH_COLOUR;
+            else if (X >= leftX + 7 && X <= leftX + 10) oled_data = broken ? WHITE : FOURTH_COLOUR;
             else oled_data =BACKGROUND;
         end else if (Y == topY + 15) begin
             if (X == leftX + 5 || X == leftX + 12) oled_data = BLACK;
-            else if (X >= leftX + 6 && X <= leftX + 11)oled_data = FOURTH_COLOUR;        
+            else if (X >= leftX + 6 && X <= leftX + 11)oled_data = broken ? WHITE : FOURTH_COLOUR;        
             else oled_data = BACKGROUND;
         end else if (Y == topY + 16) begin
             if (X == leftX + 4 || X == leftX + 13) oled_data = BLACK;
-            else if (X >= leftX + 5 && X <= leftX + 12)oled_data = FOURTH_COLOUR;
+            else if (X >= leftX + 5 && X <= leftX + 12)oled_data = broken ? WHITE : FOURTH_COLOUR;
             else oled_data = BACKGROUND;
         end else if (Y == topY + 17) begin
             if (X == leftX + 3 || X == leftX + 14) oled_data = BLACK;
-            else if (X >= leftX + 4 && X <= leftX + 13)oled_data = THIRD_COLOUR;
+            else if (X >= leftX + 4 && X <= leftX + 13)oled_data = broken ? WHITE : THIRD_COLOUR;
             else oled_data = BACKGROUND;
         end else if (Y == topY + 18) begin
             if (X == leftX + 2 || X == leftX + 15) oled_data = BLACK;
-            else if (X >= leftX + 3 && X <= leftX + 14)oled_data = THIRD_COLOUR; 
+            else if (X >= leftX + 3 && X <= leftX + 14)oled_data = broken ? WHITE : THIRD_COLOUR; 
             else oled_data = BACKGROUND;
         end else if (Y == topY + 19 || Y == topY + 20) begin
-            if (X == leftX + 1 || X == leftX + 16) oled_data = BLACK;
-            else if (X >= leftX + 2 && X <= leftX + 15)oled_data = THIRD_COLOUR;      
+            if (X == leftX + 1 || X == leftX + 16) oled_data = BLACK;  
+            else if (broken == 0 && X >= leftX + 2 && X <= leftX + 15)oled_data = THIRD_COLOUR;      
+            else if (broken == 0) oled_data = BACKGROUND;
+            else if (Y == topY+19 && (X==leftX+5||X==leftX+9||X==leftX+13)) oled_data = BLACK;
+            else if (Y==topY+20 && X >= leftX + 2&&X <= leftX + 14 && (X-leftX)%2 == 0) oled_data = BLACK;
+            else if (X != leftX && X != leftX + 5 && X != leftX + 9 && X != leftX + 13 && X != leftX + 17) oled_data = WHITE;
             else oled_data = BACKGROUND;
-        end else if (Y >= topY + 21 && Y <= topY + 24) begin
-            if (X == leftX || X == leftX +17) oled_data = BLACK;
-            else oled_data = SECOND_COLOUR; 
+        end else if (Y == topY + 21 || Y == topY + 24) begin
+            if (broken == 0 && (X == leftX || X == leftX +17)) oled_data = BLACK;
+            else if (broken == 0)oled_data = SECOND_COLOUR; 
+            else if (X==leftX+1||X==leftX+7||X==leftX+3||X==leftX+11||X==leftX+15||X==leftX+16) oled_data = BLACK;
+            else oled_data = BACKGROUND;
+        end else if (Y == topY + 22 || Y == topY + 23) begin
+            if (broken == 0 && (X == leftX || X == leftX +17)) oled_data = BLACK;
+            else if (broken == 0)oled_data = SECOND_COLOUR; 
+            else oled_data = BACKGROUND;
         end else if (Y ==topY + 25 || Y == topY + 26) begin
             if (X == leftX + 1 || X == leftX + 16) oled_data = BLACK;
-            else if (X >= leftX + 2 && X <= leftX + 15)oled_data = FIRST_COLOUR;  
+            else if (broken == 0 && X >= leftX + 2 && X <= leftX + 15)oled_data = FIRST_COLOUR;  
+            else if (broken == 0) oled_data = BACKGROUND;
+            else if (Y == topY+26 && (X==leftX+5||X==leftX+9||X==leftX+13)) oled_data = BLACK;
+            else if (Y==topY+25 && X >= leftX + 2 && X <= leftX + 14 && (X-leftX)%2 == 0) oled_data = BLACK;
+            else if (X != leftX && X != leftX + 5 && X != leftX + 9 && X != leftX + 13 && X != leftX + 17) oled_data = WHITE;
             else oled_data = BACKGROUND;
         end else if (Y == topY + 27) begin
             if (X == leftX + 2 || X == leftX + 15) oled_data = BLACK;
-            else if (X >= leftX + 3 && X <= leftX + 14)oled_data = FIRST_COLOUR;  
+            else if (X >= leftX + 3 && X <= leftX + 14)oled_data = broken ? WHITE : FIRST_COLOUR;  
             else oled_data = BACKGROUND;
         end else if (Y == topY + 28) begin
             if (X == leftX + 3 || X == leftX + 4 || X == leftX + 14 || X == leftX + 13) oled_data = BLACK;
-            else if (X >= leftX + 5 && X <= leftX + 12)oled_data = FIRST_COLOUR;  
+            else if (X >= leftX + 5 && X <= leftX + 12)oled_data = broken ? WHITE : FIRST_COLOUR;  
             else oled_data = BACKGROUND;
         end else if (Y == topY + 29) begin
             if (X >= leftX + 5 && X <= leftX + 12) oled_data = BLACK;

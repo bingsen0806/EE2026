@@ -44,7 +44,7 @@ module Potion(
     wire [2:0] colour1_5,colour2_5,colour3_5,colour4_5;
     wire [2:0] colour1_6,colour2_6,colour3_6,colour4_6;
     wire [2:0] colour1_7,colour2_7,colour3_7,colour4_7;
-    
+    wire [6:0] broken;
     Potion_Display potion_display(
         .X(X),
         .Y(Y),
@@ -58,7 +58,8 @@ module Potion(
         .colour1_7(colour1_7), .colour2_7(colour2_7), .colour3_7(colour3_7), .colour4_7(colour4_7),
         .oled_data(oled_data),
         .confirmed(confirmed),
-        .TIMELEFT(TIMELEFT)
+        .TIMELEFT(TIMELEFT),
+        .broken(broken)
     );
     
     Potion_Logic potion_logic(
@@ -78,7 +79,8 @@ module Potion(
         .confirmed(confirmed),
         .TIMELEFT(TIMELEFT),
         .freq(freq),
-        .actualWin(actualWin)
+        .actualWin(actualWin),
+        .broken(broken)
     );
     
     Loading loading(
