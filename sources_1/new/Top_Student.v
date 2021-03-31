@@ -94,7 +94,7 @@ module Top_Student (
     wire [3:0] an_basic;
     wire [7:0] seg_basic;
     Sound micData(.clk_20(clk_20),.clk_20k(clk_20k),.mic_in(mic_in),.volume_level_raw(volume_level_raw),.raw_mic_in(raw_mic_in),.volume_level_peak(volume_level_peak));
-    LED_Display_Mic led_display(.led_clk(clk_6p25M),.sw(sw),.raw_volume(volume_level_raw),.peak_volume(volume_level_peak),.led(led),.freq_level(freq_level));
+    LED_Display_Mic led_display(.led_clk(clk_6p25M),.sw000(sw[0]),.sw111(sw[1]),.raw_volume(volume_level_raw),.peak_volume(volume_level_peak),.led(led),.freq_level(freq_level));
     Seven_Segment_Sound soundDisplay(.display_clk(clk_400), .update_volume_clk(clk_10),.an(an_basic),.seg(seg_basic),.volume_raw(raw_mic_in),.volume_level_peak(volume_level_peak),.sw00(sw[0]),.sw11(sw[1]),.volume_level_raw(volume_level_raw),.freq(freq));
     Frequency frequency(.clk_20kHz(clk_20k), .mic_in(mic_in), .freq_level(freq_level), .freq(freq));
     
@@ -111,7 +111,8 @@ module Top_Student (
     wire [3:0] an_pokemon; wire [7:0] seg_pokemon; //added
     
     wire done_initialize; wire [15:0] oled_potion_mixing; wire potion_ended; wire fruit_ended; wire potion_win;
-    wire[15:0] oled_loading; wire [15:0] oled_basic; wire[15:0] oled_fruit;
+    wire[15:0] oled_loading; wire [15:0] oled_basic; wire[15:0] oled_fruit; 
+    wire [3:0] an_potion; wire [7:0] seg_potion;
     finalMux finalMux(
         .clk(basys_clk),
         .state(state),
@@ -128,7 +129,12 @@ module Top_Student (
         .seg(seg),
         .oled_potion_mixing(oled_potion_mixing),
         .oled_loading(oled_loading),
-        .oled_fruit(oled_fruit)
+        .oled_fruit(oled_fruit),
+        .X(X),
+        .Y(Y),
+        .an_potion(an_potion),
+        .seg_potion(seg_potion),
+        .sw_potion(sw[1])
     );
     
     wire [1:0] nextStateMenu;
@@ -146,6 +152,7 @@ module Top_Student (
         .state(state),
         .done_initialize(done_initialize),
         .potion_win(potion_win)
+        //.freq(freq)  //this line comment out
     );
     
     PokemonGameOver_Display game_over_display(
@@ -204,7 +211,10 @@ module Top_Student (
         .loading_clk(clk_5),
         .oled_loading(oled_loading),
         .freq(freq),
-        .actualWin(potion_win)
+        .actualWin(potion_win),
+        .an(an_potion),
+        .seg(seg_potion),
+        .seg_clk(clk_400)
     );  
     
     volume_bar Volume_bar(

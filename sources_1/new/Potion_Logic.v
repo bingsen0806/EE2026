@@ -39,7 +39,8 @@ module Potion_Logic(
     output [6:0] TIMELEFT,
     input [11:0] freq,
     output reg actualWin = 0,
-    output reg [6:0] broken = 7'b0000000
+    output reg [6:0] broken = 7'b0000000,
+    output [9:0] actual_score
     );
     parameter [24:0] TIME_LIMIT = 25'd60000;
     
@@ -61,6 +62,8 @@ module Potion_Logic(
     reg [2:0] confirm1 = 3'd7; reg [2:0] confirm2 = 3'd7; //8 means no bottle confirmed, otherwise this denots the bottles that are confirmed selected
     reg [2:0] num_completed = 3'd0;
     reg win = 0; reg [10:0] countWin = 11'd0;
+    reg [9:0] score = 10'd0;
+
     always @(posedge single_pulse_clk) begin
         if (state == 4'b0110 && done_initialize == 0) begin
             if (initialize_values == 0) begin
@@ -418,8 +421,8 @@ module Potion_Logic(
                     if(selecting == confirm1) begin
                         if (confirm1 == 3'd7) potion_ended <= 1;
                         else confirm1 <= 3'd7;            
-                    end else if (selecting != confirm2) begin //just add condition in case, by right confirm2 is always 3'd7
-                        if (confirm1 != 3'd7) begin //already have another bottle confirm selected  
+                    //end else if (selecting != confirm2) begin //just add condition in case, by right confirm2 is always 3'd7
+                    end else if (confirm1 != 3'd7) begin //already have another bottle confirm selected  
                         
                             //code for pouring from confirm1 into confirm2
                             //repeat 4 times, cannot use for loop because will have synthesis error unles use case statement, which is longer
@@ -453,10 +456,10 @@ module Potion_Logic(
    
                             confirm1 <= 3'd7; //after pouring, all bottles are not confirmed selected anymore
                                               // if invalid selection is made, all bottles are not confirmed selected also                   
-                        end else begin      //no bottle confirm selected yet, so confirm select this one
-                            confirm1 <= selecting;
-                        end 
-                    end
+                    end else begin      //no bottle confirm selected yet, so confirm select this one
+                        confirm1 <= selecting;
+                    end 
+                    //end
                 end
                 
                 //CHANGEDDDD MOVED WINNING CONDITION OUTSIDE
@@ -469,7 +472,7 @@ module Potion_Logic(
                 if (num_completed == 7) begin
                     win <= 1;
                 end 
-                
+                score <= num_completed * 100;
             end else if (win == 1) begin
                 countWin <= countWin + 1;
                 if (countWin == 1999) begin
@@ -485,10 +488,13 @@ module Potion_Logic(
             win <= 0;
             actualWin <= 0;
             broken <= 7'b0000000;
+            score <= 10'd0;
         end
     end
     
+    
     assign TIMELEFT = time_left * 100 /TIME_LIMIT;
+    assign actual_score = ((100 - TIMELEFT) * 5  < score) ? score - (100-TIMELEFT)*5 :  10'd0;
     assign confirmed = (confirm1 == 3'd7) ? 8'd0:
                        (8'b00000_001 << confirm1);
     assign selected = (8'b00000_001 << selecting);
@@ -499,4 +505,10 @@ module Potion_Logic(
     assign colour1_5 = colours[4][0]; assign colour2_5 = colours[4][1]; assign colour3_5 = colours[4][2]; assign colour4_5 = colours[4][3];
     assign colour1_6 = colours[5][0]; assign colour2_6 = colours[5][1]; assign colour3_6 = colours[5][2]; assign colour4_6 = colours[5][3];
     assign colour1_7 = colours[6][0]; assign colour2_7 = colours[6][1]; assign colour3_7 = colours[6][2]; assign colour4_7 = colours[6][3];
+    
+    
+
+
+
+
 endmodule
