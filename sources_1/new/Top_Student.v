@@ -34,7 +34,7 @@ module Top_Student (
     
     //Wires for Oled_Display and Audio_Capture
     wire frame_begin; wire sending_pixels; wire sample_pixel;
-    wire [12:0] pixel_index; wire teststate;
+    wire [12:0] pixel_index; wire [4:0] teststate;
     wire [15:0] oled_data;
 
     wire [11:0] mic_in;

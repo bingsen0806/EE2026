@@ -24,7 +24,7 @@ module Frequency(input clk_20kHz, input [11:0] mic_in, output [3:0] freq_level, 
 
     reg [31:0] count = 0;
     reg end_period = 0;
-    reg [11:0] SOUNDCOUNTER = 0;
+    reg [11:0] sample_count = 0;
     reg reset = 0;
     
     assign freq_level = (freq < 200) ? 0 : 
@@ -57,7 +57,7 @@ module Frequency(input clk_20kHz, input [11:0] mic_in, output [3:0] freq_level, 
         if(count == 3999)
         begin
             count <= 0;
-            freq = 5 * SOUNDCOUNTER;
+            freq = 5 * sample_count;
             reset = 1;
         end
     end
@@ -65,9 +65,9 @@ module Frequency(input clk_20kHz, input [11:0] mic_in, output [3:0] freq_level, 
     always @ (posedge end_period, posedge reset)
     begin
         if (reset == 1)
-            SOUNDCOUNTER <= 0;
+            sample_count <= 0;
         else 
-            SOUNDCOUNTER <= SOUNDCOUNTER + 1;
+            sample_count <= sample_count + 1;
     end
 
 endmodule

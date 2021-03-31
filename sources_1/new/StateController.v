@@ -28,7 +28,7 @@ module StateController(
     output reg [3:0] state = 4'b0000, //change to 0000
     input done_initialize,
     input potion_win
-   //input [11:0] freq //comment out
+    //input [11:0] freq //comment out
     );
     
     reg [10:0] countUnlock = 11'd0;
@@ -75,9 +75,9 @@ module StateController(
         end
         4'b0101: begin //potion mixing
             if (potion_mixing_ended == 1) begin //change back to potion_mixing_ended later
-                state <= 4'b0111; //go to win page
+                state <= 4'b0111; //go to game over
             end else if (potion_win == 1) begin
-                state <= 4'b0111; //go to win page
+                state <= 4'b1000; //go to win page
             end
         end
         4'b0110: begin //potion mixing initialization
@@ -89,6 +89,11 @@ module StateController(
             if (btnC == 1) begin
                 state <= 4'b0000;
             end
+        end
+        4'b1000: begin
+            if (btnC == 1) begin
+                state <= 4'b0000;
+            end   
         end
         endcase
     
