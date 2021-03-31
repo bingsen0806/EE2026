@@ -32,7 +32,7 @@ module volume_bar(
     input [3:0] state
 );
     
-    parameter[15:0] BLACK  = 16'b0;
+    parameter[15:0] BLACK  = 16'd0;
     parameter[15:0] WHITE = 16'b11111_111111_11111;
     parameter[15:0] YELLOW = 16'b11111_111111_00000;
     parameter[15:0] GREEN = 16'b00000_111111_00000;
@@ -40,7 +40,8 @@ module volume_bar(
     parameter[15:0] COLOUR3 = 16'b11111_011111_11010;
     parameter[15:0] COLOUR2 = 16'b11000_011111_11111;
     parameter[15:0] COLOUR1 = 16'b01111_100110_11111;
-    
+    parameter [15:0] LIGHTYELLOW = 16'b11111_111011_01110;
+    parameter [15:0] LIGHTGREEN = 16'b01111_111111_11001;
     parameter [6:0] LENGTH = 7'd10;
     reg [6:0] leftX = 7'd43;
     reg [15:0] LOW_COLOUR = GREEN;
@@ -50,8 +51,8 @@ module volume_bar(
     reg border_on = 1;
     wire [15:0] BACKGROUND; wire [15:0] BORDER_COLOUR;
     
-    assign BACKGROUND = sw2 ? WHITE : BLACK;
-    assign BORDER_COLOUR = sw2 ? BLACK : WHITE;
+    assign BACKGROUND = sw2 ? LIGHTYELLOW : BLACK; //CHANGE TO LIGHTYELLOW
+    assign BORDER_COLOUR = sw2 ? LIGHTGREEN : WHITE; //CHANGE TO LIGHTGREEN
     always @(sw0 or sw1 or sw2) begin
         if(sw1 == 1) begin
             if(sw0 == 1) begin

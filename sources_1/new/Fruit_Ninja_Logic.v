@@ -31,8 +31,8 @@ module Fruit_Ninja_Logic(
     input [5:0] Y,
     output [15:0] oled_fruit
     );
-    parameter [15:0]BACKGROUND = 16'b11111_111111_00000; //white
-    parameter [11:0] FREQ_THRESHOLD = 12'd1500;
+    parameter [15:0]BACKGROUND = 16'b00000_000000_11111; //brown 16'b10110_010111_00001
+    parameter [11:0] FREQ_THRESHOLD = 12'd450;
     
     wire [15:0] oled_watermelon, oled_watermelonS, oled_banana, oled_bananaS, oled_strawberry, oled_strawberryS;
     

@@ -70,7 +70,7 @@ module StateController(
         end
         4'b0100: begin //fruit ninja
             if (fruit_ninja_ended == 1) begin
-                state <= 4'b0000; //go back to menu
+                state <= 4'b1001; //go back to menu
             end
         end
         4'b0101: begin //potion mixing
@@ -94,6 +94,11 @@ module StateController(
             if (btnC == 1) begin
                 state <= 4'b0000;
             end   
+        end
+        4'b1001: begin
+            if (btnC == 1) begin
+                state <= 4'b0000;
+            end         
         end
         endcase
     
