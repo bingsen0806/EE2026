@@ -9,3 +9,8 @@ Implemented features includes:
 3. A simple version of Fruit Ninja called Sliced, where the fruit when user frequency exceeds certain thershold.
 4. An FPGA version of WaterSort or BallSort, named Potion Mixing.
 5. Menu system for easy navigation between features.
+
+As this is a group project consisiting of 2 members, here is a quick user start guide and summary of workload distribution
+![Quick User Start Guide1][UserGuide1.png]
+![Quick User Start Guide2][UserGuide2.png]
+![Quick User Start Guide3][UserGuide3.png]
