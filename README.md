@@ -12,6 +12,6 @@ In this project, PMod Oled RGB 96x64 pixels and PMod MIC3 was used to interface 
 
 ## Quick User Start Guide
 As this is a group project consisiting of 2 members, here is a quick user start guide and summary of workload distribution
-![Quick User Start Guide1][UserGuide1.png]
-![Quick User Start Guide2][UserGuide2.png]
-![Quick User Start Guide3][UserGuide3.png]
+![UserGuide1](https://user-images.githubusercontent.com/71639142/113470952-b734fc00-948b-11eb-9296-76e44dc136f6.PNG)
+![UserGuide2](https://user-images.githubusercontent.com/71639142/113470953-b8febf80-948b-11eb-8ed2-861091537d96.PNG)
+![UserGuide3](https://user-images.githubusercontent.com/71639142/113470954-bac88300-948b-11eb-80c2-ea9a7cb262d0.PNG)
