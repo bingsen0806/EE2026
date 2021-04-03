@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 17.03.2021 23:08:36
+// Create Date: 26.03.2021 18:16:43
 // Design Name: 
-// Module Name: Seven_Segment_Sound
+// Module Name: Pokemon_Segment
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -18,19 +18,15 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
-
-module Seven_Segment_Sound(
-    input display_clk, //refresh rate of 380Hz
-    input update_volume_clk,
-    output reg [3:0] an = 4'b0000,
-    output reg [7:0] seg = 8'b00000_000,
-    input [11:0] volume_raw,
-    input [3:0] volume_level_peak,
-    input [3:0] volume_level_raw,
-    input sw00, sw11,
-    input [11:0] freq
-    );
+   
+module Pokemon_Segment(
+    input display_clk, //400Hz
+    input update_clk,  //Try 50Hz
+    input [31:0] Health_Charmander,
+    input [31:0] Health_Squirtle,
+    output reg [3:0] an = 4'b1111,
+    output reg [7:0] seg = 8'b11111_111
+);
     reg [1:0] count = 2'b00;
     reg [7:0] segment [3:0]; //this variable array will be changed according to volume level
     reg [7:0] segment_const [13:0]; //this is a constant array (e.g. segment_const[4] is the 8-bit value that shows "4" on the display)
@@ -51,34 +47,23 @@ module Seven_Segment_Sound(
         segment_const[13] = 8'b10110110; //Just 3 horizontal lines
     end
 
-    always @(posedge update_volume_clk) begin
-        if (sw11 == 1) begin
-            segment[0] <= segment_const[freq/1000];
-            segment[1] <= segment_const[(freq%1000)/100];
-            segment[2] <= segment_const[(freq%100)/10];
-            segment[3] <= segment_const[freq%10];           
-        end else if (sw00 == 0) begin
-            segment[0] <= segment_const[13];
-            //Below sets the letter L, M or H
-            if(volume_level_peak > 10) begin
-                segment[1] <= segment_const[12]; //set to H
-            end else if (volume_level_peak > 5) begin
-                segment[1] <= segment_const[11]; //set to M
-            end else begin
-                segment[1] <= segment_const[10]; //set to L
-            end
-            //Below sets the 2-digit volume level display
-            segment[2] <= segment_const[volume_level_peak/10];
-            segment[3] <= segment_const[volume_level_peak%10];
-        end else begin 
-            segment[0] <= segment_const[volume_raw/1000];
-            segment[1] <= segment_const[(volume_raw%1000)/100];
-            segment[2] <= segment_const[(volume_raw%100)/10];
-            segment[3] <= segment_const[volume_raw%10];
-        end 
-
+    always @(posedge update_clk) begin
+        if(Health_Charmander > 99) begin
+            segment[0] <= segment_const[9];
+            segment[1] <= segment_const[9];
+        end else begin
+            segment[0] <= segment_const[Health_Charmander/10];
+            segment[1] <= segment_const[Health_Charmander%10];
+        end
+        if(Health_Squirtle > 99) begin
+            segment[2] <= segment_const[9];
+            segment[3] <= segment_const[9];
+        end else begin
+            segment[2] <= segment_const[Health_Squirtle/10];
+            segment[3] <= segment_const[Health_Squirtle%10];
+        end
     end
-    
+
     always @(posedge display_clk) begin
         count <= count + 1;
         case (count)
@@ -100,4 +85,8 @@ module Seven_Segment_Sound(
             end
         endcase
     end
+
+
+
+
 endmodule
