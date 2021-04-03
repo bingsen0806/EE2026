@@ -1,5 +1,5 @@
 # EE2026 Vivado Project
-This is a project on Basys 3 FPGA Board, coded purely on Verilog language using Vivado, for National University of Singapore (NUS) "EE2026 DIgital Design" Module.
+This is a project on Basys 3 FPGA Board, coded purely on Verilog language using Vivado, for National University of Singapore (NUS) "EE2026 Digital Design" Module.
 
 In this project, PMod Oled RGB 96x64 pixels and PMod MIC3 was used to interface with the Basys Board to create a "Sound and Sight Entertainment System".
 
