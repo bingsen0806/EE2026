@@ -472,7 +472,8 @@ module Potion_Logic(
                 if (num_completed == 7) begin
                     win <= 1;
                 end 
-                score <= num_completed * 100;
+                if (potion_ended == 0) score <= num_completed * 100;
+                else score <= (num_completed > 5) ? num_completed * 100 - 500 : 0;
             end else if (win == 1) begin
                 countWin <= countWin + 1;
                 if (countWin == 1999) begin
