@@ -23,7 +23,7 @@
 module test(
     input basys_clk,
     input btnC,
-    output reg [15:0] led = 16'b0
+    output reg [15:0] led = 17'b0
     );
     wire clk_16p67M; wire centreButton; wire clk_1k; wire clk_20;
     
